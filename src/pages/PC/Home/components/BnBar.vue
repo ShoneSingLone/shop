@@ -1,6 +1,7 @@
 <template>
   <transition :name="transitionName">
-    here name required
+    <div class="site-bn-bar" style="background-image:url(//i1.mifile.cn/a4/cms_15366315029349_PRtOe.jpg);">
+    </div>
   </transition>
 </template>
 
@@ -8,7 +9,7 @@
 // import { mapGetters, mapActions } from "vuex";
 
 export default {
-  name: "here name required",
+  name: "bnBar",
   mounted() {
     //某些需要在mounted之后完成的初始化
     let vm = this;
@@ -56,4 +57,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.site-bn-bar {
+  display: block;
+  width: 100%;
+  height: 120px;
+  background: center center no-repeat;
+}
 </style>

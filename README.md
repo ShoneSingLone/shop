@@ -2,6 +2,7 @@
 
 从杂货堆挖出来的一个项目：[原地址](https://github.com/ShoneSingLone/mindmap/tree/master/project/shop)
 单独拎出来准备做个完整的项目移动端、PC端。购物车、注册、登录、支付。
+讲道理，应该是有一个后台管理系统来CURD这些商品吧...没接触过电商，不知道（就是不用写后台管理系统的意思）。
 
 ---
 

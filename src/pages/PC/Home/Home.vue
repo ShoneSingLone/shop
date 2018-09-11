@@ -1,9 +1,10 @@
 <template>
-  <div class="main">
+  <main class="main">
+    <bn-bar></bn-bar>
     <top-bar></top-bar>
-    <div class="row">
+    <site-header></site-header>
+  <!--   <div class="row">
       <category :menuList="menuList"></category>
-      <!-- carousel -->
       <div class="carousel">
         <div class="banner" id="banner" v-on:mouseover="carousel.mouseover" v-on:mouseout="carousel.mouseout">
           <a href="javascript:void(0);" v-for="(slideItem, index) in carousel.slides" :key="index" @click="goTo">
@@ -18,7 +19,8 @@
       </div>
       <flash-purchase/>
     </div>
-  </div>
+    <site-footer></site-footer> -->
+  </main>
 </template>
 
 <script>
@@ -47,10 +49,16 @@ export default {
   },
   computed: {},
   components: {
-    "flash-purchase": () =>
-      import(/* webpackChunkName: "FlashPurchase" */ "./components/FlashPurchase"),
+    "bn-bar": () =>
+      import(/* webpackChunkName: "BnBar" */ "./components/BnBar"),
+    "site-header": () =>
+      import(/* webpackChunkName: "SiteHeader" */ "./components/SiteHeader"),
     "top-bar": () =>
       import(/* webpackChunkName: "TopBar" */ "./components/TopBar"),
+    "flash-purchase": () =>
+      import(/* webpackChunkName: "FlashPurchase" */ "./components/FlashPurchase"),
+    "site-footer": () =>
+      import(/* webpackChunkName: "Footer" */ "./components/Footer"),
     category: () =>
       import(/* webpackChunkName: "category" */ "./components/Category")
   },
@@ -167,6 +175,18 @@ export default {
 <style lang='scss' scoped>
 // @import "../../assets/bootstrap/variables";
 
+.test {
+  height: 100%;
+  outline: 1px solid rebeccapurple;
+  overflow-y: scroll;
+  .inner {
+    height: 5500px;
+    opacity: 0.5;
+    background: linear-gradient(cyan, transparent),
+      linear-gradient(225deg, magenta, transparent),
+      linear-gradient(45deg, yellow, transparent);
+  }
+}
 $height: 440px;
 $listWidth: 15rem;
 $width: 1226px;
@@ -174,8 +194,6 @@ $width: 1226px;
 .main {
   height: 100%;
   overflow-y: scroll;
-  display: flex;
-  flex-flow: column nowrap;
   .row {
     width: $width;
     margin: 0 auto;

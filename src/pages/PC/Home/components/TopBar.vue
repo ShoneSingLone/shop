@@ -41,7 +41,7 @@
 
 <script type="text/javascript">
 export default {
-  name: "topbar",
+  name: "topBar",
   data() {
     return {
       navItems: [
@@ -90,7 +90,7 @@ export default {
   // overflow: visiable;
   position: relative;
   font-size: 12px;
-  color: #b0b0b0;
+  color: #5c3a3a;
   background: #333;
   z-index: 1;
 
@@ -119,8 +119,6 @@ export default {
         }
       }
     }
-    > .topbar-nav {
-    }
     > .topbar-info {
       margin-left: auto;
     }
@@ -137,13 +135,11 @@ export default {
         position: relative;
         color: #b0b0b0;
 
-        // font-size: 14px;
-        .iconfont {
-        }
         + .cart-menu {
           position: absolute;
+          z-index: 2;
           right: 0;
-          top: 39px;
+          top: 40px;
           font-size: 12px;
           text-align: center;
           width: 316px;
@@ -151,7 +147,7 @@ export default {
           color: #424242;
           background: #fff;
           box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
-          transform: scale(1, 0);
+          transform: scaleY(0);
           transform-origin: left top;
           transition: all 0.5s;
         }
@@ -162,29 +158,11 @@ export default {
         .cart-mini {
           color: #ff6700;
           + .cart-menu {
-            transform: scale(1, 1);
+            transform: scaleY(1);
           }
-        }
-      }
-      .active {
-        background: #fff;
-        a,
-        span {
-          color: #ff6700;
         }
       }
     }
   }
-}
-.fade-enter-active,
-.fade-leave-active {
-  transition: all 0.5s ease;
-  height: 96px;
-  opacity: 1;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-  height: 0;
 }
 </style>

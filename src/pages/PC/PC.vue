@@ -4,7 +4,7 @@
     </div>
 </template>
 <style lang="scss" scoped>
-.pc {
+#pc {
   height: 100%;
   font-size: 16px;
   overflow: hidden;

@@ -47,7 +47,10 @@ export default {
 </script>
 <style lang="scss">
 @import "./assets/style/iconfont.scss";
-
+.iconfont {
+  font-size: unset;
+  margin: 0 0.25rem;
+}
 html,
 body,
 #app {
