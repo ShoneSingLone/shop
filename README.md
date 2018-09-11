@@ -5,9 +5,9 @@
 
 ---
 
-- ![shophomepage](./modules/static/shophomepage.gif)
+- ![shophomepage](./src/assets/doc/shophomepage.gif)
 - 一个仿[小米商城](https://www.mi.com/)项目，基于Vue技术栈。
-- [leanCloud 访问Shop地址](https://shonesinglone.leanapp.cn/shop/)![leancloud_addr](./modules/static/leancloud_addr.png)对比[Github.io 访问Shop地址](https://shonesinglone.github.io/shop/#/)，cleanCloud访问速度是肉眼可见的快得多，特别商品详情页几张大图，感觉就像CDN。
+- [leanCloud 访问Shop地址](https://shonesinglone.leanapp.cn/shop/)![leancloud_addr](./src/assets/doc/leancloud_addr.png)对比[Github.io 访问Shop地址](https://shonesinglone.github.io/shop/#/)，cleanCloud访问速度是肉眼可见的快得多，特别商品详情页几张大图，感觉就像CDN。
 
 产品概览页的nav与outline有竟态问题待解决（挖坑）
 
@@ -40,12 +40,18 @@ body,
 - 响应size的变化而跳转相应的视图。
 
 ```js
-
+// in App.vue
+//Pixel2 411*731 viewport的作用？
+// 判定是否为PC视图
+let routePath = newW > 411 ? { name: "p.h" } : { name: "m.h" };
+// routePath可根据其他属性（currentShowView）改变以保持视图一致
+this.$router.push(routePath);
 ```
 
 ### [Home](https://www.mi.com/)
 
-整体布局是传统行列排版， 划分为row单独处理。 class row 固定宽居中 `margin:0 auto;`
+整体布局是传统行列排版， 划分为row单独处理。 class row 固定宽`1226px`居中 `margin:0 auto;`
+
 
 `<style lang='scss' scoped>`
 主要是把类似reset，全局通用的样式放在app component（root）中（比如Bootstrap Base），而variables和mixin就在需要的组件里各自引用即可。第三方库的样式受scope的影响，在组件内部不起作用。

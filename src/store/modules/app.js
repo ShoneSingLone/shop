@@ -25,8 +25,8 @@ const mutations = {
         height,
         width,
     }) {
-        state.appSize.height = height;
-        state.appSize.width = width;
+        state.appSize.height = Math.ceil(height);
+        state.appSize.width = Math.ceil(width);
     },
 }
 

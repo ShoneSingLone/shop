@@ -1,5 +1,5 @@
 export default {
-    path: '/',
+    path: '/mobile',
     name: 'm', //mobile
     component: () =>
         import ( /* webpackChunkName: "pc" */ '@/pages/PC/PC'),
