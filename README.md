@@ -13,13 +13,35 @@
 
 ## 任务清单
 
-- [ ] 焦点图
-- [ ] purchase
-- [ ] 商品展示页
+- [ ] 主页
+  - [ ] 焦点图
+  - [ ] purchase
+- [ ] 商品概览页
 - [ ] 登录
 - [ ] 购物车
 
 ## 记录
+
+### 基建
+
+- html,body,#app height置为100%，同时App.vue最为全局样式，不适用style scoped。
+
+```css
+html,
+body,
+#app {
+  height: 100%;
+  font-size: 16px;
+  overflow: hidden;
+}
+```
+
+- 在App.vue中完成对APP size的变化的监听，以满足所谓响应式。
+- 响应size的变化而跳转相应的视图。
+
+```js
+
+```
 
 ### [Home](https://www.mi.com/)
 

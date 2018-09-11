@@ -4,8 +4,8 @@ export default {
     component: () =>
         import ( /* webpackChunkName: "pc" */ '@/pages/PC/PC'),
     children: [{
-        path: 'article',
-        name: 'm.article',
+        path: 'h', //home
+        name: 'm.h',
         component: () =>
             import ( /* webpackChunkName: "pc" */ '@c/H'),
     }]
