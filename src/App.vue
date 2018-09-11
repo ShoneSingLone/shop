@@ -46,11 +46,16 @@ export default {
 };
 </script>
 <style lang="scss">
+@import "./assets/style/iconfont.scss";
+
 html,
 body,
 #app {
   height: 100%;
   font-size: 16px;
   overflow: hidden;
+  a {
+    text-decoration: none;
+  }
 }
 </style>

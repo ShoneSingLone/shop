@@ -24,6 +24,7 @@
 
 ### 基建
 
+- 第三方库`reset-css`在main.js中引用
 - html,body,#app height置为100%，同时App.vue最为全局样式，不适用style scoped。
 
 ```css
@@ -50,13 +51,14 @@ this.$router.push(routePath);
 
 ### [Home](https://www.mi.com/)
 
-整体布局是传统行列排版， 划分为row单独处理。 class row 固定宽`1226px`居中 `margin:0 auto;`
+- 整体布局是传统行列排版， 划分为row单独处理。 固定宽`1226px`居中 `margin:0 auto;`
+- [iconfont](http://www.iconfont.cn/)找图标，购物车之类的，随便选了几个。[如何操作](http://www.iconfont.cn/help/detail?helptype=code)
 
+```html
+  <link rel="iconfont" href="https://at.alicdn.com/t/font_832872_j0jyooqtv2r.css">
+```
+![iconfont](./src/assets/doc/iconfont.png)
 
-`<style lang='scss' scoped>`
-主要是把类似reset，全局通用的样式放在app component（root）中（比如Bootstrap Base），而variables和mixin就在需要的组件里各自引用即可。第三方库的样式受scope的影响，在组件内部不起作用。
-
-icon的设置方法
 居中
 定位
 普通的页面：结构 样式 交互

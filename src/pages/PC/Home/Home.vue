@@ -1,8 +1,6 @@
 <template>
   <div class="main">
-    <div class="row">
-      <top-bar/>
-    </div>
+    <top-bar></top-bar>
     <div class="row">
       <category :menuList="menuList"></category>
       <!-- carousel -->
@@ -25,86 +23,86 @@
 
 <script>
 export default {
-  name: 'index',
+  name: "index",
   metaInfo: {
-    title: '首页', // set a title
+    title: "首页", // set a title
     meta: [
       {
         // set meta
-        name: 'keyWords',
-        content: '首页入口'
+        name: "keyWords",
+        content: "首页入口"
       }
     ]
   },
-  mounted () {
-    this.carousel.startAutoPlay()
+  mounted() {
+    this.carousel.startAutoPlay();
   },
   methods: {
-    goTo (item = '') {
+    goTo(item = "") {
       this.$router.push({
-        name: 'xxr',
+        name: "xxr",
         params: item
-      })
+      });
     }
   },
   computed: {},
   components: {
-    'flash-purchase': () =>
-      import(/* webpackChunkName: "FlashPurchase" */ './components/FlashPurchase'),
-    'top-bar': () =>
-      import(/* webpackChunkName: "TopBar" */ './components/TopBar'),
+    "flash-purchase": () =>
+      import(/* webpackChunkName: "FlashPurchase" */ "./components/FlashPurchase"),
+    "top-bar": () =>
+      import(/* webpackChunkName: "TopBar" */ "./components/TopBar"),
     category: () =>
-      import(/* webpackChunkName: "category" */ './components/Category')
+      import(/* webpackChunkName: "category" */ "./components/Category")
   },
-  data () {
+  data() {
     return {
       isInSubMenu: false,
       menuCurrentItemIndex: undefined,
-      carousel: (function (vm) {
+      carousel: (function(vm) {
         let slides = [
-          { imgClass: 'slide1' },
-          { imgClass: 'slide2' },
-          { imgClass: 'slide0' },
-          { imgClass: 'slide2' },
-          { imgClass: 'slide1' },
-          { imgClass: 'slide2' },
-          { imgClass: 'slide0' }
-        ]
-        function clickNext () {
-          vm.carousel.currentSlide++
+          { imgClass: "slide1" },
+          { imgClass: "slide2" },
+          { imgClass: "slide0" },
+          { imgClass: "slide2" },
+          { imgClass: "slide1" },
+          { imgClass: "slide2" },
+          { imgClass: "slide0" }
+        ];
+        function clickNext() {
+          vm.carousel.currentSlide++;
           if (vm.carousel.currentSlide >= slides.length) {
-            vm.carousel.currentSlide = 0
+            vm.carousel.currentSlide = 0;
           }
         }
-        function clickPrev () {
-          vm.carousel.currentSlide--
+        function clickPrev() {
+          vm.carousel.currentSlide--;
           if (vm.carousel.currentSlide <= -1) {
-            vm.carousel.currentSlide = slides.length - 1
+            vm.carousel.currentSlide = slides.length - 1;
           }
         }
 
-        function clickDots (index) {
-          vm.carousel.currentSlide = index
+        function clickDots(index) {
+          vm.carousel.currentSlide = index;
         }
 
         // 图片自动轮播
-        let timer
+        let timer;
         // handle event
-        function mouseover () {
-          stopAutoPlay()
+        function mouseover() {
+          stopAutoPlay();
         }
-        function mouseout () {
-          startAutoPlay()
+        function mouseout() {
+          startAutoPlay();
         }
-        function startAutoPlay () {
-          timer = setInterval(function () {
-            clickNext()
-          }, 1000 * 3)
+        function startAutoPlay() {
+          timer = setInterval(function() {
+            clickNext();
+          }, 1000 * 3);
         }
         // 清除定时器,停止自动播放
-        function stopAutoPlay () {
+        function stopAutoPlay() {
           if (timer) {
-            clearInterval(timer)
+            clearInterval(timer);
           }
         }
         return {
@@ -116,53 +114,53 @@ export default {
           mouseover,
           mouseout,
           startAutoPlay
-        }
+        };
       })(this),
       menuList: [
         {
-          title: '手机、配件',
+          title: "手机、配件",
           subRow: [
-            ['手机', '手机维修', '以旧换新'],
-            ['手机壳', '手机存储卡', '数据线', '充电器'],
-            ['中国联通', '中国移动', '中国电信'],
-            ['智能手环', '智能家居', '智能手表'],
-            ['耳机', '音响', '收音机', '麦克风']
+            ["手机", "手机维修", "以旧换新"],
+            ["手机壳", "手机存储卡", "数据线", "充电器"],
+            ["中国联通", "中国移动", "中国电信"],
+            ["智能手环", "智能家居", "智能手表"],
+            ["耳机", "音响", "收音机", "麦克风"]
           ]
         },
         {
-          title: '电脑',
+          title: "电脑",
           subRow: [
-            ['笔记本', '平板', '一体机'],
-            ['显示器', 'CPU', '主板', '硬盘'],
-            ['游戏机', '耳机', '游戏软件'],
-            ['路由器', '网络机顶盒', '交换机', '存储卡'],
-            ['鼠标', '键盘', 'U盘', '移动硬盘']
+            ["笔记本", "平板", "一体机"],
+            ["显示器", "CPU", "主板", "硬盘"],
+            ["游戏机", "耳机", "游戏软件"],
+            ["路由器", "网络机顶盒", "交换机", "存储卡"],
+            ["鼠标", "键盘", "U盘", "移动硬盘"]
           ]
         },
         {
-          title: '家用电器',
+          title: "家用电器",
           subRow: [
-            ['电视：', '国产品牌', '韩国品牌', '欧美品牌'],
-            ['空调：', '柜式', '中央', '壁挂式'],
-            ['冰箱：', '多门', '对开门', '双门'],
-            ['洗衣机：', '滚筒式洗衣机', '迷你洗衣机', '洗烘一体机'],
-            ['厨房电器：', '油烟机', '洗碗机', '燃气灶']
+            ["电视：", "国产品牌", "韩国品牌", "欧美品牌"],
+            ["空调：", "柜式", "中央", "壁挂式"],
+            ["冰箱：", "多门", "对开门", "双门"],
+            ["洗衣机：", "滚筒式洗衣机", "迷你洗衣机", "洗烘一体机"],
+            ["厨房电器：", "油烟机", "洗碗机", "燃气灶"]
           ]
         },
         {
-          title: '家具',
+          title: "家具",
           subRow: [
-            ['被子', '枕头', '四件套', '床垫'],
-            ['台灯', '顶灯', '节能灯', '应急灯'],
-            ['厨具：', '烹饪锅具', '餐具', '菜板刀具'],
-            ['家装：', '地毯', '沙发垫套', '装饰字画'],
-            ['生活日用：', '收纳用品', '浴室用品', '雨伞雨衣']
+            ["被子", "枕头", "四件套", "床垫"],
+            ["台灯", "顶灯", "节能灯", "应急灯"],
+            ["厨具：", "烹饪锅具", "餐具", "菜板刀具"],
+            ["家装：", "地毯", "沙发垫套", "装饰字画"],
+            ["生活日用：", "收纳用品", "浴室用品", "雨伞雨衣"]
           ]
         }
       ]
-    }
+    };
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -175,7 +173,7 @@ $width: 1226px;
 
 .main {
   height: 100%;
-  overflow: auto;
+  overflow-y: scroll;
   display: flex;
   flex-flow: column nowrap;
   .row {
@@ -183,7 +181,6 @@ $width: 1226px;
     margin: 0 auto;
     position: relative;
     //   overflow: hidden;
-
     .carousel {
       .banner {
         //   outline: 1px solid #f01414;
