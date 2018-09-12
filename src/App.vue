@@ -61,4 +61,45 @@ body,
     text-decoration: none;
   }
 }
+.fade {
+  &-enter-active {
+    transition: all 0.3s 0.3s ease-in;
+    opacity: 0;
+  }
+
+  &-leave-active {
+    transition: all 0.3s ease-out;
+  }
+
+  &-enter,
+  &-leave-to {
+    opacity: 0;
+  }
+
+  &-enter-to,
+  &-leave {
+    opacity: 1;
+  }
+}
+
+.show {
+  &-enter-active {
+    transition: height 0.3s 0.3s ease-in;
+    height: 0;
+  }
+
+  &-leave-active {
+    transition: height 0.3s ease-out;
+  }
+
+  &-enter,
+  &-leave-to {
+    max-height: 666;
+  }
+
+  &-enter-to,
+  &-leave {
+    opacity: 1;
+  }
+}
 </style>

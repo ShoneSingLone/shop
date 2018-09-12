@@ -58,7 +58,35 @@ this.$router.push(routePath);
 ```html
   <link rel="iconfont" href="https://at.alicdn.com/t/font_832872_j0jyooqtv2r.css">
 ```
-![iconfont](./src/assets/doc/iconfont.png)
+
+- ![iconfont](./src/assets/doc/iconfont.png)
+
+---
+
+- ![iconfont](./src/assets/doc/site-header.png)
+- header部分：都是常规居中布局，使用flex相比原网页的float简直谁用谁知道...
+- search-input添加`autocomplete="off"`不然自动填充影响search-result框的正常显示。
+- 比较有意思的地方是官网将nav和navItem处理为并列关系，并不像我以为的是父子关系（一般是hover的时候display：block子元素）。所以单独有变量`currentNavItem`来控制navItem的显隐。
+
+```html
+<ul class="menus">
+  <li class="product" v-for="(tabItem, index) in tabItems[currentNavItem.type]" :key="index">
+    <p class="info" v-if="tabItem.info">
+      <span class="flag">{{tabItem.info}}</span>
+    </p>
+    <a :href="tabItem.link"><img :src="tabItem.imgUrl" :alt="tabItem.name"></a>
+    <p class="name">{{tabItem.name}}</p>
+    <p class="price">{{tabItem.price}}</p>
+  </li>
+</ul>
+
+```
+
+每次动态渲染会有视觉上可感知的延迟
+
+
+- 搜索框hot-word是按像素手动居中，感觉很不优雅，求指导。
+
 
 居中
 定位

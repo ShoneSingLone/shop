@@ -6,8 +6,8 @@
         <a href="javascript:void(0)" class="pic-gif"></a>
         <div class="header-nav">
           <ul class="nav-wrap">
-            <li v-for="(navItem, index) in navItems" :key="index" class="item" @mouseleave="isLeave()">
-              <a href="javascript: void(0);" @mouseenter="isEnter(navItem.type)">{{navItem.name}}</a>
+            <li v-for="(navItem, index) of navItems" :key="index" class="item" @mouseenter="enterNavItem(navItem)" @mouseleave="leaveNavItem()">
+              <a href="javascript: void(0);">{{navItem.name}}</a>
             </li>
           </ul>
         </div>
@@ -38,11 +38,11 @@
       <!-- search end-->
     </div>
 
-    <transition name="fadeIn">
-      <div class="header-menu" @mouseenter="isEnter()" @mouseleave="isLeave()" v-show="headerStatus">
+    <transition name="show">
+      <div class="header-nav-menu" @mouseenter="enterNavItem(currentNavItem)" @mouseleave="leaveNavItem()" v-show="currentNavItem">
         <ul class="menus">
-          <li class="product" v-for="(tabItem, index) in tabItems" :key="index">
-            <p class="info" v-show="tabItem.showStatus">
+          <li class="product" v-for="(tabItem, index) in tabItems[currentNavItem.type]" :key="index">
+            <p class="info" v-if="tabItem.info">
               <span class="flag">{{tabItem.info}}</span>
             </p>
             <a :href="tabItem.link"><img :src="tabItem.imgUrl" :alt="tabItem.name"></a>
@@ -99,8 +99,8 @@ export default {
   data() {
     return {
       isInputFocus: false,
-      headerStatus: false,
-      tids: "",
+      currentNavItem: false,
+      timer: {},
       navItems: [
         { name: "小米手机", type: "xiaomi" },
         { name: "红米", type: "redmi" },
@@ -126,299 +126,294 @@ export default {
         { Key: "路由器", Rst: 17 },
         { Key: "小米盒子", Rst: 8 }
       ],
-      tabItems: [
-        "xiaomi",
-        "redmi",
-        "mipad",
-        "mitv",
-        "mibox",
-        "mirouter",
-        "mihardware"
-      ],
-      xiaomi: [
-        {
-          name: "小米6",
-          imgUrl: "./static/imgs/xm6.png",
-          link: "https://www.mi.com/mi6/",
-          price: "2499元起",
-          info: "新品",
-          showStatus: true
-        },
-        {
-          name: "小米Max 2",
-          imgUrl: "./static/imgs/max2.png",
-          link: "https://www.mi.com/max2/",
-          price: "1699元起",
-          info: "现货",
-          showStatus: true
-        },
-        {
-          name: "小米Note 2",
-          imgUrl: "./static/imgs/xiaomiNOTE2.jpg",
-          link: "https://www.mi.com/minote2/",
-          price: "2799元起",
-          info: "立减300",
-          showStatus: true
-        },
-        {
-          name: "小米MIX",
-          imgUrl: "./static/imgs/MIX.jpg",
-          link: "https://www.mi.com/mix/",
-          price: "3499元起",
-          info: "特惠250",
-          showStatus: true
-        },
-        {
-          name: "小米5s Plus",
-          imgUrl: "./static/imgs/5splus.jpg",
-          link: "https://www.mi.com/mi5splus/",
-          price: "2299元起",
-          info: "立减200",
-          showStatus: true
-        },
-        {
-          name: "小米手机5c",
-          imgUrl: "./static/imgs/mi5c.png",
-          link: "https://www.mi.com/mi5c/",
-          price: "1499元起",
-          info: "立减200",
-          showStatus: true
-        }
-      ],
-      redmi: [
-        {
-          name: "红米Note 4X",
-          imgUrl: "./static/imgs/hmn4x.jpg",
-          link: "https://www.mi.com/redminote4x/",
-          price: "799元起",
-          info: "热卖",
-          showStatus: true
-        },
-        {
-          name: "红米4X",
-          imgUrl: "./static/imgs/hm4x.jpg",
-          link: "https://www.mi.com/redmi4x/",
-          price: "699元起",
-          info: "热卖",
-          showStatus: true
-        },
-        {
-          name: "红米4A",
-          imgUrl: "./static/imgs/hm4a.png",
-          link: "https://www.mi.com/redmi4a/",
-          price: "599元起",
-          info: ""
-        },
-        {
-          name: "红米4",
-          imgUrl: "./static/imgs/hm4.jpg",
-          link: "https://www.mi.com/redmi4",
-          price: "799元起",
-          info: ""
-        }
-      ],
-      mipad: [
-        {
-          name: "小米平板3 64GB",
-          imgUrl: "./static/imgs/mipad3.png",
-          link: "https://www.mi.com/mipad3/",
-          price: "1499元",
-          info: ""
-        },
-        {
-          name: "小米笔记本Air 12.5",
-          imgUrl: "./static/imgs/bijiben12.5.jpg",
-          link: "https://www.mi.com/mibookair-12/",
-          price: "3599元",
-          info: ""
-        },
-        {
-          name: "小米笔记本Air 13.3",
-          imgUrl: "./static/imgs/bijiben13.3.jpg",
-          link: "https://www.mi.com/mibookair/",
-          price: "4999元",
-          info: "新品",
-          showStatus: true
-        }
-      ],
-      mitv: [
-        {
-          name: "小米电视4 49英寸",
-          imgUrl: "./static/imgs/xmds_49.png",
-          link: "https://www.mi.com/mitv4/49/",
-          price: "3499元",
-          info: "新品",
-          showStatus: true
-        },
-        {
-          name: "小米电视4 55英寸",
-          imgUrl: "./static/imgs/xmds_55.png",
-          link: "https://www.mi.com/mitv4/55/",
-          price: "3999元起",
-          info: "新品",
-          showStatus: true
-        },
-        {
-          name: "小米电视4 65英寸",
-          imgUrl: "./static/imgs/xmds_65.png",
-          link: "https://www.mi.com/mitv4/65/",
-          price: "9999元",
-          info: "新品",
-          showStatus: true
-        },
-        {
-          name: "小米电视4A 43英寸",
-          imgUrl: "./static/imgs/xmds4a_43.png",
-          link: "https://www.mi.com/mitv4A/43/",
-          price: "2099元",
-          info: ""
-        },
-        {
-          name: "小米电视4A 49英寸",
-          imgUrl: "./static/imgs/xmds4a_49.png",
-          link: "https://www.mi.com/mitv4A/49/",
-          price: "2599元",
-          info: ""
-        },
-        {
-          name: "查看全部",
-          imgUrl: "./static/imgs/70dianshi.png",
-          link: "https://www.mi.com/mitv4A/49/",
-          price: "小米电视",
-          info: ""
-        }
-      ],
-      mibox: [
-        {
-          name: "小米盒子3s",
-          imgUrl: "./static/imgs/mihezi3s.png",
-          link: "https://www.mi.com/mibox3s/",
-          price: "299元",
-          info: ""
-        },
-        {
-          name: "小米盒子3c",
-          imgUrl: "./static/imgs/mihezi3c.png",
-          link: "https://www.mi.com/mibox3c/",
-          price: "199元",
-          info: ""
-        },
-        {
-          name: "小米盒子3 增强版",
-          imgUrl: "./static/imgs/hezi3s.jpg",
-          link: "https://www.mi.com/hezi3s/",
-          price: "399元",
-          info: ""
-        },
-        {
-          name: "小米家庭影院",
-          imgUrl: "./static/imgs/jtyy.png",
-          link: "https://www.mi.com/misurround/",
-          price: "1999元",
-          info: ""
-        },
-        {
-          name: "小米家庭音响 标准版",
-          imgUrl: "./static/imgs/putonban.jpg",
-          link: "https://item.mi.com/1160800074.html",
-          price: "699元",
-          info: ""
-        }
-      ],
-      mirouter: [
-        {
-          name: "小米路由器 HD/Pro",
-          imgUrl: "./static/imgs/HD-Pro.png",
-          link: "https://www.mi.com/miwifihd/",
-          price: "499元起",
-          info: ""
-        },
-        {
-          name: "小米路由器 3G",
-          imgUrl: "./static/imgs/3G.png",
-          link: "https://www.mi.com/miwifi3g/",
-          price: "249元",
-          info: "新品",
-          showStatus: true
-        },
-        {
-          name: "小米路由器 3",
-          imgUrl: "./static/imgs/xmlyq3.png",
-          link: "https://www.mi.com/miwifi3/",
-          price: "149元起",
-          info: "包邮",
-          showStatus: true
-        },
-        {
-          name: "小米路由器 3C",
-          imgUrl: "./static/imgs/3C.png",
-          link: "https://www.mi.com/miwifi3c/",
-          price: "99元",
-          info: "包邮",
-          showStatus: true
-        },
-        {
-          name: "小米WiFi电力猫",
-          imgUrl: "./static/imgs/dlm.png",
-          link: "https://www.mi.com/plc/",
-          price: "249元",
-          info: ""
-        },
-        {
-          name: "小米WiFi放大器 2",
-          imgUrl: "./static/imgs/fdq2.jpg",
-          link: "https://item.mi.com/1164700010.html",
-          price: "49元",
-          info: ""
-        }
-      ],
-      mihardware: [
-        {
-          name: "小米体脂秤",
-          imgUrl: "./static/imgs/tzc.jpg",
-          link: "https://www.mi.com/scale2/",
-          price: "199元",
-          info: ""
-        },
-        {
-          name: "小米手环2",
-          imgUrl: "./static/imgs/sh2.png",
-          link: "https://www.mi.com/shouhuan2/",
-          price: "149元",
-          info: "包邮",
-          showStatus: true
-        },
-        {
-          name: "小米净水器",
-          imgUrl: "./static/imgs/jsqcs.png",
-          link: "https://www.mi.com/water3/",
-          price: "1499元起",
-          info: "新品",
-          showStatus: true
-        },
-        {
-          name: "小米VR眼镜 PLAY2",
-          imgUrl: "./static/imgs/xmvrplay2.png",
-          link: "https://www.mi.com/mivr2c/",
-          price: "99元",
-          info: "新品",
-          showStatus: true
-        },
-        {
-          name: "米家IH电饭煲",
-          imgUrl: "./static/imgs/dfb.jpg",
-          link: "https://www.mi.com/dianfanbao2/",
-          price: "399元",
-          info: ""
-        },
-        {
-          name: "查看全部",
-          imgUrl: "./static/imgs/air2.jpg",
-          link: "https://www.mi.com/smart/",
-          price: "智能硬件",
-          info: ""
-        }
-      ]
+      tabItems: {
+        xiaomi: [
+          {
+            name: "小米6",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/xm6.png",
+            link: "",
+            price: "2499元起",
+            info: "新品",
+            showStatus: true
+          },
+          {
+            name: "小米Max 2",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/max2.png",
+            link: "",
+            price: "1699元起",
+            info: "现货",
+            showStatus: true
+          },
+          {
+            name: "小米Note 2",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/xiaomiNOTE2.jpg",
+            link: "",
+            price: "2799元起",
+            info: "立减300",
+            showStatus: true
+          },
+          {
+            name: "小米MIX",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/MIX.jpg",
+            link: "",
+            price: "3499元起",
+            info: "特惠250",
+            showStatus: true
+          },
+          {
+            name: "小米5s Plus",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/5splus.jpg",
+            link: "",
+            price: "2299元起",
+            info: "立减200",
+            showStatus: true
+          },
+          {
+            name: "小米手机5c",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/mi5c.png",
+            link: "",
+            price: "1499元起",
+            info: "立减200",
+            showStatus: true
+          }
+        ],
+
+        redmi: [
+          {
+            name: "红米Note 4X",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/hmn4x.jpg",
+            link: "",
+            price: "799元起",
+            info: "热卖",
+            showStatus: true
+          },
+          {
+            name: "红米4X",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/hm4x.jpg",
+            link: "",
+            price: "699元起",
+            info: "热卖",
+            showStatus: true
+          },
+          {
+            name: "红米4A",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/hm4a.png",
+            link: "",
+            price: "599元起",
+            info: ""
+          },
+          {
+            name: "红米4",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/hm4.jpg",
+            link: "",
+            price: "799元起",
+            info: ""
+          }
+        ],
+
+        mipad: [
+          {
+            name: "小米平板3 64GB",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/mipad3.png",
+            link: "",
+            price: "1499元",
+            info: ""
+          },
+          {
+            name: "小米笔记本Air 12.5",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/bijiben12.5.jpg",
+            link: "",
+            price: "3599元",
+            info: ""
+          },
+          {
+            name: "小米笔记本Air 13.3",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/bijiben13.3.jpg",
+            link: "",
+            price: "4999元",
+            info: "新品",
+            showStatus: true
+          }
+        ],
+        mitv: [
+          {
+            name: "小米电视4 49英寸",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/xmds_49.png",
+            link: "",
+            price: "3499元",
+            info: "新品",
+            showStatus: true
+          },
+          {
+            name: "小米电视4 55英寸",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/xmds_55.png",
+            link: "",
+            price: "3999元起",
+            info: "新品",
+            showStatus: true
+          },
+          {
+            name: "小米电视4 65英寸",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/xmds_65.png",
+            link: "",
+            price: "9999元",
+            info: "新品",
+            showStatus: true
+          },
+          {
+            name: "小米电视4A 43英寸",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/xmds4a_43.png",
+            link: "",
+            price: "2099元",
+            info: ""
+          },
+          {
+            name: "小米电视4A 49英寸",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/xmds4a_49.png",
+            link: "",
+            price: "2599元",
+            info: ""
+          },
+          {
+            name: "查看全部",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/70dianshi.png",
+            link: "",
+            price: "小米电视",
+            info: ""
+          }
+        ],
+        mibox: [
+          {
+            name: "小米盒子3s",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/mihezi3s.png",
+            link: "",
+            price: "299元",
+            info: ""
+          },
+          {
+            name: "小米盒子3c",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/mihezi3c.png",
+            link: "",
+            price: "199元",
+            info: ""
+          },
+          {
+            name: "小米盒子3 增强版",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/hezi3s.jpg",
+            link: "",
+            price: "399元",
+            info: ""
+          },
+          {
+            name: "小米家庭影院",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/jtyy.png",
+            link: "",
+            price: "1999元",
+            info: ""
+          },
+          {
+            name: "小米家庭音响 标准版",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/putonban.jpg",
+            link: "",
+            price: "699元",
+            info: ""
+          }
+        ],
+        mirouter: [
+          {
+            name: "小米路由器 HD/Pro",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/HD-Pro.png",
+            link: "",
+            price: "499元起",
+            info: ""
+          },
+          {
+            name: "小米路由器 3G",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/3G.png",
+            link: "",
+            price: "249元",
+            info: "新品",
+            showStatus: true
+          },
+          {
+            name: "小米路由器 3",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/xmlyq3.png",
+            link: "",
+            price: "149元起",
+            info: "包邮",
+            showStatus: true
+          },
+          {
+            name: "小米路由器 3C",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/3C.png",
+            link: "",
+            price: "99元",
+            info: "包邮",
+            showStatus: true
+          },
+          {
+            name: "小米WiFi电力猫",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/dlm.png",
+            link: "",
+            price: "249元",
+            info: ""
+          },
+          {
+            name: "小米WiFi放大器 2",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/fdq2.jpg",
+            link: "",
+            price: "49元",
+            info: ""
+          }
+        ],
+        mihardware: [
+          {
+            name: "小米体脂秤",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/tzc.jpg",
+            link: "",
+            price: "199元",
+            info: ""
+          },
+          {
+            name: "小米手环2",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/sh2.png",
+            link: "",
+            price: "149元",
+            info: "包邮",
+            showStatus: true
+          },
+          {
+            name: "小米净水器",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/jsqcs.png",
+            link: "",
+            price: "1499元起",
+            info: "新品",
+            showStatus: true
+          },
+          {
+            name: "小米VR眼镜 PLAY2",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/xmvrplay2.png",
+            link: "",
+            price: "99元",
+            info: "新品",
+            showStatus: true
+          },
+          {
+            name: "米家IH电饭煲",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/dfb.jpg",
+            link: "",
+            price: "399元",
+            info: ""
+          },
+          {
+            name: "查看全部",
+            imgUrl: "https://shonesinglone.leanapp.cn/imgs/air2.jpg",
+            link: "",
+            price: "智能硬件",
+            info: ""
+          }
+        ]
+      }
     };
   },
   computed: {},
@@ -428,6 +423,20 @@ export default {
     },
     searchInputBlur() {
       this.isInputFocus = false;
+    },
+    enterNavItem(navItem) {
+      if (navItem && navItem.type) {
+        this.currentNavItem = navItem;
+      } else {
+        this.currentNavItem = false;
+      }
+      clearTimeout(this.timer);
+    },
+    leaveNavItem() {
+      this.timer = setTimeout(() => {
+        debugger;
+        this.currentNavItem = false;
+      }, 300);
     }
   },
   components: {
@@ -616,15 +625,17 @@ export default {
     }
   }
 
-  .header-menu {
-    position: absolute;
+  .header-nav-menu {
+    // outline: 1px solid rebeccapurple;
+    position: relative;
     left: 0;
-    top: 140px;
+    top: 0;
+    overflow: hidden;
     width: 100%;
     height: 230px;
     background: #fff;
+    outline: 1px solid #ccc;
     box-shadow: 0 1px 5px #ccc;
-    z-index: 11;
     .menus {
       width: 1226px;
       margin-right: auto;
@@ -646,7 +657,7 @@ export default {
         }
         > .info {
           position: absolute;
-          top: -1px;
+          top: 0;
           left: 0;
           z-index: 1;
           width: 100%;
