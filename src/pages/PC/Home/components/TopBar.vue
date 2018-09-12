@@ -137,7 +137,6 @@ export default {
 
         + .cart-menu {
           position: absolute;
-          z-index: 2;
           right: 0;
           top: 40px;
           font-size: 12px;

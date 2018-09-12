@@ -102,6 +102,8 @@ this.$router.push(routePath);
 
 ```
 
+- 为了下拉正常显示，z-index只要起作用（position为relative或者absolute且不为auto）就创建了层叠上下文（stacking order）先看大小，大小一样看先后。
+
 - 搜索框hot-word是按像素手动居中，感觉很不优雅，求指导。
 
 ---
@@ -109,12 +111,12 @@ this.$router.push(routePath);
 - category
 - ![category](./src/assets/doc/category.png)
 
-- 官网的category是headerNavList里的第一元素，也是有点6，不知道什么原因。我是觉得有点扯，因为数据结构跟后面的数据不一致。有懂行的麻烦说一下。
-- 然后这里的实现没有像官网那样对item还有一个专门的list来限制展示的行列。(懒)
+- 官网的category是headerNavList里的第一元素，也是有点6，不知道这么处理是什么原因。我是觉得有点扯，因为数据结构跟后面的数据不一致。有懂行的麻烦说一下。
+- 然后这里的实现把结构单独拎出来，而且也没有像官网那样对item还有一个专门的list来限制展示的行列。(懒)
 
-- ![category-mi](./src/assets/doc/category-mi.png)
+![category-mi](./src/assets/doc/category-mi.png)
 
-按照一般的父子关系处理，使用天然的hover完成
+就按照一般的父子关系处理，使用hover完成
 
 ```html
 <ul class="category">
@@ -130,9 +132,6 @@ this.$router.push(routePath);
             <a class="link" href="javascript:void(0)">
               <img :src="detail.imgUrl" alt="" />
               <span class="text-name">{{detail.name}}</span>
-            </a>
-            <a class="buy" v-show="detail.buyStatus" :href="detail.buyUrl">
-              选购
             </a>
           </div>
         </li>

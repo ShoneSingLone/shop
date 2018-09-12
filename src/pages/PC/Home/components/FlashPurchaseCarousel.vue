@@ -182,7 +182,6 @@ export default {
 
       &:hover {
         position: relative;
-        z-index: 2;
         transform: translate3d(4px, 4px, 0) scale(0.94, 0.94);
 
         @include box-shadow();
@@ -207,7 +206,6 @@ export default {
           right: 0;
           bottom: 0;
           left: 0;
-          z-index: 2;
           cursor: pointer;
         }
 

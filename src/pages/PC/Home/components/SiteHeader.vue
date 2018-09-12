@@ -15,13 +15,13 @@
       <!-- search -->
       <div :class="['header-search',{focus:isInputFocus}]">
         <transition name="fadeOut">
-          <ul class="hot-wrapper" v-show="!isInputFocus">
+          <ul class="hot-wrapper" v-show="!isInputFocus&&searchKeyWord.length<1">
             <li v-for="(hotItem, index) in hotItems" :key="index" class="item">{{hotItem}}</li>
           </ul>
         </transition>
 
         <label class="search-input" for="search-input" autocomplete="off">
-          <input type="text" autocomplete="off" id="search-input" class="search-ipt" @focus="searchInputFocus" @blur="searchInputBlur">
+          <input v-model="searchKeyWord" type="text" autocomplete="off" id="search-input" class="search-ipt" @focus="searchInputFocus" @blur="searchInputBlur">
         </label>
         <div class="search-btn">
           <a href="javascript:void(0)" class="iconfont icon-search"></a>
@@ -94,6 +94,7 @@ export default {
   props: {},
   data() {
     return {
+      searchKeyWord: "",
       isInputFocus: false,
       currentNavItem: false,
       timer: {},
@@ -441,19 +442,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$width: 1226px;
+
 .site-header {
   width: 100%;
   height: 100px;
-  position: relative;
-  z-index: 1;
 
   > .container {
-    width: 1226px;
+    width: $width;
     margin: 0 auto;
     position: relative;
     display: flex;
     flex-flow: row nowrap;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     > .wrapper {
       display: flex;
@@ -577,7 +578,7 @@ export default {
         > .iconfont {
           line-height: 50px;
           font-weight: 900;
-          font-size: 1.32px;
+          font-size: 32px;
           color: #424242;
         }
         &:hover {
@@ -599,7 +600,7 @@ export default {
         padding: 0;
         list-style: none;
         border: 1px solid #ff6700;
-        z-index: 11;
+        z-index: 1;
         background: #fff;
         li {
           padding: 7px 13px;
@@ -627,6 +628,7 @@ export default {
   .header-nav-menu {
     // outline: 1px solid rebeccapurple;
     position: relative;
+    z-index: 1;
     left: 0;
     top: 0;
     overflow: hidden;
@@ -644,7 +646,7 @@ export default {
       // transform: scaleY(1);
     }
     .menus {
-      width: 1226px;
+      width: $width;
       margin-right: auto;
       margin-left: auto;
       display: flex;
