@@ -3,9 +3,9 @@
     <div class="container">
       <div class="wrapper">
         <a href="javascript:void(0)" class="logo"></a>
-        <a href="javascript:void(0)" class="pic-gif"></a>
+        <a href="javascript:void(0)" class="gif-banner"></a>
         <div class="header-nav">
-          <ul class="nav-wrap">
+          <ul class="nav-wrapper">
             <li v-for="(navItem, index) of navItems" :key="index" class="item" @mouseenter="enterNavItem(navItem)" @mouseleave="leaveNavItem()">
               <a href="javascript: void(0);">{{navItem.name}}</a>
             </li>
@@ -15,7 +15,7 @@
       <!-- search -->
       <div :class="['header-search',{focus:isInputFocus}]">
         <transition name="fadeOut">
-          <ul class="hot-wrap" v-show="!isInputFocus">
+          <ul class="hot-wrapper" v-show="!isInputFocus">
             <li v-for="(hotItem, index) in hotItems" :key="index" class="item">{{hotItem}}</li>
           </ul>
         </transition>
@@ -27,7 +27,7 @@
           <a href="javascript:void(0)" class="iconfont icon-search"></a>
         </div>
         <div class="search-result">
-          <ul class="result-wrap">
+          <ul class="result-wrapper">
             <li v-for="(resultItem, index) in resultItems" :key="index" class="item">
               <span class="item-name">{{resultItem.Key}}</span>
               <span class="item-num">约有{{resultItem.Rst}}件</span>
@@ -37,23 +37,18 @@
       </div>
       <!-- search end-->
     </div>
-
-    <transition name="show">
-      <div class="header-nav-menu" @mouseenter="enterNavItem(currentNavItem)" @mouseleave="leaveNavItem()" v-show="currentNavItem">
-        <ul class="menus" v-show="currentNavItem.type === key" v-for="(navTabItems, key) in tabItems" :key="key">
-          {{key}}
-          <li class="product" v-for="(tabItem, subIndex) in navTabItems" :key="subIndex">
-            <p class="info" v-if="tabItem.info">
-              <span class="flag">{{tabItem.info}}</span>
-            </p>
-            <a :href="tabItem.link"><img :src="tabItem.imgUrl" :alt="tabItem.name"></a>
-            <p class="name">{{tabItem.name}}</p>
-            <p class="price">{{tabItem.price}}</p>
-          </li>
-        </ul>
-      </div>
-    </transition>
-
+    <div :class="['header-nav-menu',{'show':Boolean(currentNavItem)}]" @mouseenter="enterNavItem(currentNavItem)" @mouseleave="leaveNavItem()">
+      <ul class="menus" v-show="currentNavItem.type === key" v-for="(navTabItems, key) in tabItems" :key="key">
+        <li class="product" v-for="(tabItem, subIndex) in navTabItems" :key="subIndex">
+          <p class="info" v-if="tabItem.info">
+            <span class="flag">{{tabItem.info}}</span>
+          </p>
+          <a :href="tabItem.link"><img :src="tabItem.imgUrl" :alt="tabItem.name"></a>
+          <p class="name">{{tabItem.name}}</p>
+          <p class="price">{{tabItem.price}}</p>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -435,7 +430,6 @@ export default {
     },
     leaveNavItem() {
       this.timer = setTimeout(() => {
-        debugger;
         this.currentNavItem = false;
       }, 1);
     }
@@ -449,6 +443,10 @@ export default {
 <style lang="scss" scoped>
 .site-header {
   width: 100%;
+  height: 100px;
+  position: relative;
+  z-index: 1;
+
   > .container {
     width: 1226px;
     margin: 0 auto;
@@ -465,19 +463,19 @@ export default {
       > .logo {
         width: 55px;
         height: 55px;
-        background: url(../../../../assets/img/mi-logo.png) center center
-          no-repeat #ff6700;
+        background: url("https://shonesinglone.leanapp.cn/imgs/mi-logo.png")
+          center center no-repeat #ff6700;
       }
-      > .pic-gif {
+      > .gif-banner {
         width: 163px;
         height: 55px;
         margin-left: 10px;
-        background: url(../../../../assets/img/boom.gif) center center / contain
-          no-repeat;
+        background: url("https://shonesinglone.leanapp.cn/imgs/boom.gif") center
+          center / contain no-repeat;
       }
       > .header-nav {
         position: relative;
-        > .nav-wrap {
+        > .nav-wrapper {
           display: flex;
           line-height: 100px;
           > .item {
@@ -519,7 +517,7 @@ export default {
           display: block;
         }
       }
-      > .hot-wrap {
+      > .hot-wrapper {
         position: absolute;
         z-index: 1;
         top: 17px;
@@ -532,8 +530,8 @@ export default {
         > .item {
           font-size: 12px;
           display: inline-block;
-          padding: 0.1rem 0.2rem;
-          margin: 0 0.2rem;
+          padding: 2px 4px;
+          margin: 0 4px;
           color: #757575;
           background: #e0e0e0;
           top: 1px;
@@ -579,7 +577,7 @@ export default {
         > .iconfont {
           line-height: 50px;
           font-weight: 900;
-          font-size: 1.2rem;
+          font-size: 1.32px;
           color: #424242;
         }
         &:hover {
@@ -633,10 +631,18 @@ export default {
     top: 0;
     overflow: hidden;
     width: 100%;
-    height: 230px;
+    height: 0;
     background: #fff;
-    outline: 1px solid #ccc;
-    box-shadow: 0 1px 5px #ccc;
+    transition: all 0.5s ease-in-out;
+    // transform: scaleY(0);
+    transform-origin: 0 0;
+
+    &.show {
+      outline: 1px solid #ccc;
+      height: 230px;
+      box-shadow: 0 1px 5px #ccc;
+      // transform: scaleY(1);
+    }
     .menus {
       width: 1226px;
       margin-right: auto;

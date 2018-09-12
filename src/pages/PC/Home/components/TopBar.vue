@@ -125,7 +125,7 @@ export default {
     > .topbar-cart {
       width: 120px;
       height: 40px;
-      margin-left: 1rem;
+      margin-left: 16px;
       position: relative;
       text-align: center;
       color: #b0b0b0;

@@ -49,7 +49,10 @@ export default {
 @import "./assets/style/iconfont.scss";
 .iconfont {
   font-size: unset;
-  margin: 0 0.25rem;
+  margin: 0 4px;
+}
+* {
+  box-sizing: border-box;
 }
 html,
 body,

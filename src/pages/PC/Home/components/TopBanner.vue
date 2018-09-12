@@ -751,7 +751,6 @@ $height: 460px;
             // outline: 1px solid red;
 
             > .detail-inner {
-              // outline: 1px dashed rebeccapurple;
               flex: 1;
               transform: scale(0.9, 0.9);
               display: flex;
@@ -764,13 +763,12 @@ $height: 460px;
                 @include box-shadow();
               }
               > .link {
-                outline: 1px dashed rebeccapurple;
+                // outline: 1px dashed rebeccapurple;
                 display: flex;
                 // flex-flow: nowrap;
                 justify-content: flex-start;
                 align-items: center;
-                width: 170px;
-                padding: 18px 20px;
+                min-width: 170px;
                 margin-left: 2px;
                 color: $text-color2;
 

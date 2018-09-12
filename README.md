@@ -63,10 +63,12 @@ this.$router.push(routePath);
 
 ---
 
-- ![iconfont](./src/assets/doc/site-header.png)
+- ![site-header](./src/assets/doc/site-header.png)
 - header部分：都是常规居中布局，使用flex相比原网页的float简直谁用谁知道...
 - search-input添加`autocomplete="off"`不然自动填充影响search-result框的正常显示。
 - 比较有意思的地方是官网将nav和navItem处理为并列关系，并不像我以为的是父子关系（一般是hover的时候display：block子元素）。所以单独有变量`currentNavItem`来控制navItem的显隐。
+
+方法一：每次动态渲染会有视觉上可感知的延迟（如果数据量够大）
 
 ```html
 <ul class="menus">
@@ -82,7 +84,7 @@ this.$router.push(routePath);
 
 ```
 
-每次动态渲染会有视觉上可感知的延迟（如果数据量够大）
+方法二：一次性全部渲染，只是动态切换显隐（注意：for of、 for in 、v-show 、v-if）
 
 ```html
 <div class="header-nav-menu" @mouseenter="enterNavItem(currentNavItem)" @mouseleave="leaveNavItem()" v-show="currentNavItem">
@@ -100,9 +102,46 @@ this.$router.push(routePath);
 
 ```
 
-一次性全部渲染，只是动态切换显隐（for of for in v-show v-if）
-
 - 搜索框hot-word是按像素手动居中，感觉很不优雅，求指导。
+
+---
+
+- category
+- ![category](./src/assets/doc/category.png)
+
+- 官网的category是headerNavList里的第一元素，也是有点6，不知道什么原因。我是觉得有点扯，因为数据结构跟后面的数据不一致。有懂行的麻烦说一下。
+- 然后这里的实现没有像官网那样对item还有一个专门的list来限制展示的行列。(懒)
+
+- ![category-mi](./src/assets/doc/category-mi.png)
+
+按照一般的父子关系处理，使用天然的hover完成
+
+```html
+<ul class="category">
+  <li class="item" v-for="(category, index) in categoryList" :key="index">
+    <div class="title-wrapper">
+      <span>{{category.title}}</span>
+      <span class="iconfont icon-right"></span>
+    </div>
+    <div class="detail-thumbtack">
+      <ul class="detail-wrapper">
+        <li class="detail" v-for="(detail, index) in category.list" :key="index">
+          <div class="detail-inner">
+            <a class="link" href="javascript:void(0)">
+              <img :src="detail.imgUrl" alt="" />
+              <span class="text-name">{{detail.name}}</span>
+            </a>
+            <a class="buy" v-show="detail.buyStatus" :href="detail.buyUrl">
+              选购
+            </a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </li>
+</ul>
+```
+
 
 
 居中

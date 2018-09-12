@@ -1,7 +1,8 @@
-
 $width: 1226px;
 $text-color: #333;
-$main-color: #ff6700;
+$text-color2: #424242;
+
+$main-theme-color: #ff6700;
 
 @mixin box-shadow {
     box-shadow: 5px 5px 5px rgba(53, 24, 24, 0.5);

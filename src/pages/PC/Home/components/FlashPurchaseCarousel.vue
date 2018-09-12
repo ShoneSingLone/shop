@@ -154,13 +154,13 @@ export default {
 @import "../../../../components/style/variables";
 
 .flashPurchase-carousel-wrapper {
-  // outline: 1rem solid red;
-  height: 20rem;
+  // outline: 16px solid red;
+  height: 320px;
   overflow: hidden;
   flex: 1;
 
   .flashPurchase-list {
-    outline: 1rem solid red;
+    outline: 16px solid red;
     height: 100%;
     transition: transform 0.5s ease-in-out;
     display: flex;
@@ -176,14 +176,14 @@ export default {
       align-items: center;
       width: 0;
       height: 100%;
-      padding: 0.1rem 0 0 1.5rem;
+      padding: 2px 0 0 1.90px;
       background-clip: content-box;
       transition: all 1s;
 
       &:hover {
         position: relative;
         z-index: 2;
-        transform: translate3d(0.25rem, 0.25rem, 0) scale(0.94, 0.94);
+        transform: translate3d(4px, 4px, 0) scale(0.94, 0.94);
 
         @include box-shadow();
       }
@@ -201,7 +201,7 @@ export default {
         .bg {
           // outline: 1px solid rebeccapurple;
           background: rgba(0, 0, 0, 0.01);
-          padding: 0.1rem 0 0.1rem 1.5rem;
+          padding: 2px 0 2px 1.90px;
           position: absolute;
           top: 0;
           right: 0;
@@ -216,14 +216,14 @@ export default {
           text-decoration: none;
 
           img {
-            width: 10rem;
-            height: 10rem;
+            width: 160px;
+            height: 160px;
           }
         }
         .title {
-          margin: 1.5rem 0 0.25rem;
+          margin: 1.90px 0 4px;
           width: 60%;
-          font-size: 1rem;
+          font-size: 16px;
           font-weight: 400;
           text-overflow: ellipsis;
           white-space: nowrap;

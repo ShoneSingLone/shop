@@ -97,8 +97,8 @@ export default {
 @import "../../../../components/style/variables";
 
 ul.flashPurchase-countdown {
-  // outline: 1rem solid rebeccapurple;
-  width: 15rem;
+  // outline: 16px solid rebeccapurple;
+  width: 240px;
   height: 100%;
   background-color: rgb(241, 237, 237);
 
@@ -110,36 +110,36 @@ ul.flashPurchase-countdown {
     align-items: center;
 
     .time-title {
-      font-size: 1.5rem;
-      color: $main-color;
-      margin-top: 3rem;
+      font-size: 1.90px;
+      color: $main-theme-color;
+      margin-top: 48px;
     }
     img {
-      margin-top: 2rem;
+      margin-top: 32px;
     }
     .sub {
-      margin-top: 2rem;
+      margin-top: 32px;
       color: rgba(0, 0, 0, 0.54);
-      font-size: 1rem;
+      font-size: 16px;
     }
     .countdown {
       display: flex;
       justify-content: center;
       text-align: center;
-      margin-top: 2rem;
+      margin-top: 32px;
 
       .box {
-        width: 3rem;
-        height: 3rem;
+        width: 48px;
+        height: 48px;
         background: #605751;
         color: #fff;
-        font-size: 1.5rem;
-        line-height: 3rem;
+        font-size: 1.90px;
+        line-height: 48px;
       }
       .dosh {
-        width: 1rem;
-        height: 3rem;
-        line-height: 3rem;
+        width: 16px;
+        height: 48px;
+        line-height: 48px;
         color: #605751;
         font-size: 28px;
       }

@@ -56,26 +56,26 @@ export default {
 @import "../../../../components/style/variables";
 
 .flashPurchase-warpper {
-  margin: 5rem auto;
+  margin: 90px auto;
   .box-hd {
-    // outline: 0.1rem solid rebeccapurple;
+    // outline: 2px solid rebeccapurple;
     display: flex;
     justify-content: space-between;
     align-items: center;
 
     .title {
-      margin: 0 2rem;
-      font-size: 1.5rem;
+      margin: 0 32px;
+      font-size: 1.90px;
       font-weight: 200;
-      line-height: 4rem;
+      line-height: 64px;
       color: #333;
     }
     .more {
-      margin: 0 2rem;
+      margin: 0 32px;
 
       .control-group {
         a {
-          border: 0.1rem solid #f0f0ff;
+          border: 2px solid #f0f0ff;
           color: #212121;
           text-decoration: none;
           &.disable {
@@ -84,10 +84,10 @@ export default {
           }
 
           &:first-child {
-            border-radius: 0.3rem 0 0 0.3rem;
+            border-radius: 0.48px 0 0 0.48px;
           }
           &:last-child {
-            border-radius: 0 0.3rem 0.3rem 0;
+            border-radius: 0 0.48px 0.48px 0;
           }
         }
       }
@@ -95,7 +95,7 @@ export default {
   }
   .container {
     @include width();
-    height: 20rem;
+    height: 320px;
     display: flex;
     flex-flow: row nowrap;
     @include box-shadow();

@@ -3,23 +3,13 @@
     <bn-bar></bn-bar>
     <top-bar></top-bar>
     <site-header></site-header>
-  <!--   <div class="row">
+    <div class="banner-wrapper">
+      <!-- <carousel></carousel> -->
       <category :menuList="menuList"></category>
-      <div class="carousel">
-        <div class="banner" id="banner" v-on:mouseover="carousel.mouseover" v-on:mouseout="carousel.mouseout">
-          <a href="javascript:void(0);" v-for="(slideItem, index) in carousel.slides" :key="index" @click="goTo">
-            <div :class="['slide',slideItem.imgClass, (carousel.currentSlide===index?'active':'')]"></div>
-          </a>
-        </div>
-        <a href="javascript:void(0)" class="button prev" id="prev" @click="carousel.clickPrev"></a>
-        <a href="javascript:void(0)" class="button next" id="next" @click="carousel.clickNext"></a>
-        <div class="dots" id="dots">
-          <span :class="{active:carousel.currentSlide === index}" v-for="(dotItem, index) in carousel.slides" :key="index" @click="carousel.clickDots(index)"></span>
-        </div>
-      </div>
-      <flash-purchase/>
     </div>
-    <site-footer></site-footer> -->
+    <!--     <flash-purchase/>
+    <site-footer></site-footer>
+ -->
   </main>
 </template>
 
@@ -57,10 +47,12 @@ export default {
       import(/* webpackChunkName: "TopBar" */ "./components/TopBar"),
     "flash-purchase": () =>
       import(/* webpackChunkName: "FlashPurchase" */ "./components/FlashPurchase"),
-    "site-footer": () =>
-      import(/* webpackChunkName: "Footer" */ "./components/Footer"),
+    carousel: () =>
+      import(/* webpackChunkName: "Carousel" */ "./components/Carousel"),
     category: () =>
-      import(/* webpackChunkName: "category" */ "./components/Category")
+      import(/* webpackChunkName: "category" */ "./components/Category"),
+    "site-footer": () =>
+      import(/* webpackChunkName: "Footer" */ "./components/Footer")
   },
   data() {
     return {
@@ -188,17 +180,22 @@ export default {
   }
 }
 $height: 440px;
-$listWidth: 15rem;
+$listWidth: 240px;
 $width: 1226px;
 
 .main {
   height: 100%;
   overflow-y: scroll;
-  .row {
-    width: $width;
-    margin: 0 auto;
+  > .banner-wrapper {
     position: relative;
-    //   overflow: hidden;
+    width: 1226px;
+    margin: 0 auto 16px;
+    height: 460px;
+  }
+  .container {
+    position: relative;
+    width: 1226px;
+    margin: 0 auto;
     .carousel {
       .banner {
         //   outline: 1px solid #f01414;
@@ -238,7 +235,7 @@ $width: 1226px;
         position: absolute;
         top: 50%;
         left: $listWidth;
-        height: 5rem;
+        height: 90px;
         width: 40px;
         margin-top: -40px;
         background: url(./img/arrow.png) center center no-repeat;
@@ -261,10 +258,10 @@ $width: 1226px;
 
       .dots {
         position: absolute;
-        bottom: 1.5rem;
+        bottom: 1.90px;
         right: 0;
         text-align: right;
-        padding-right: 1.5rem;
+        padding-right: 1.90px;
         line-height: 12px;
 
         span {
