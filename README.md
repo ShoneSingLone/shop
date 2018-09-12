@@ -82,8 +82,25 @@ this.$router.push(routePath);
 
 ```
 
-每次动态渲染会有视觉上可感知的延迟
+每次动态渲染会有视觉上可感知的延迟（如果数据量够大）
 
+```html
+<div class="header-nav-menu" @mouseenter="enterNavItem(currentNavItem)" @mouseleave="leaveNavItem()" v-show="currentNavItem">
+  <ul class="menus" v-show="currentNavItem.type === key" v-for="(navTabItems, key) in tabItems" :key="key">
+    <li class="product" v-for="(tabItem, subIndex) in navTabItems" :key="subIndex">
+      <p class="info" v-if="tabItem.info">
+        <span class="flag">{{tabItem.info}}</span>
+      </p>
+      <a :href="tabItem.link"><img :src="tabItem.imgUrl" :alt="tabItem.name"></a>
+      <p class="name">{{tabItem.name}}</p>
+      <p class="price">{{tabItem.price}}</p>
+    </li>
+  </ul>
+</div>
+
+```
+
+一次性全部渲染，只是动态切换显隐（for of for in v-show v-if）
 
 - 搜索框hot-word是按像素手动居中，感觉很不优雅，求指导。
 

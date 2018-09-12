@@ -40,8 +40,9 @@
 
     <transition name="show">
       <div class="header-nav-menu" @mouseenter="enterNavItem(currentNavItem)" @mouseleave="leaveNavItem()" v-show="currentNavItem">
-        <ul class="menus">
-          <li class="product" v-for="(tabItem, index) in tabItems[currentNavItem.type]" :key="index">
+        <ul class="menus" v-show="currentNavItem.type === key" v-for="(navTabItems, key) in tabItems" :key="key">
+          {{key}}
+          <li class="product" v-for="(tabItem, subIndex) in navTabItems" :key="subIndex">
             <p class="info" v-if="tabItem.info">
               <span class="flag">{{tabItem.info}}</span>
             </p>
@@ -436,7 +437,7 @@ export default {
       this.timer = setTimeout(() => {
         debugger;
         this.currentNavItem = false;
-      }, 300);
+      }, 1);
     }
   },
   components: {
