@@ -1,14 +1,15 @@
 <template>
-  <div id="flashPurchase-carousel-wrapper" class="flashPurchase-carousel-wrapper">
-    <ul id="flashPurchase-list" class="flashPurchase-list " v-bind:style="listStyle" @click="goTo">
-      <li class="item rainbow-item-1 " v-bind:style="itemStyle" v-for="(flashPurchase, index) in flashPurchaseList " :key="index ">
-        <div class="content ">
-          <div class="bg "></div>
-          <a class="thumb exposure "> <img :src="flashPurchase.imgSrc " alt=" "> </a>
+  <div class="flashPurchase-carousel-wrapper" ref="flashPurchase-carousel-wrapper">
+    <ul class="flashPurchase-list" v-bind:style="listStyle" @click="goTo">
+      <li class="item " :style="itemStyle" v-for="(flashPurchase, index) in flashPurchaseList " :key="index ">
+        <div :class="['content',`rainbow-${flashPurchase.rainbow}`]">
+          <div class="bg ">
+          </div>
+          <a class="thumb exposure" :style="{'background':`url(${flashPurchase.imgUrl}) center center/cover`}"> </a>
           <h3 class="title ">
-            <a href="javascript:void(0) ">{{flashPurchase.title}}</a>
+            {{flashPurchase.name}}
           </h3>
-          <p class="desc ">{{flashPurchase.desc}}</p>
+          <p class="desc">{{flashPurchase.desc}}</p>
           <p class="price ">
             <span class="value ">{{flashPurchase.price}}</span>&nbsp;
             <span class="unit ">元</span>&nbsp;
@@ -21,129 +22,138 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-
-function getReac(id) {
+function getReac(ele) {
   return {
-    top: document.getElementById(id).getBoundingClientRect().top,
-    bottom: document.getElementById(id).getBoundingClientRect().bottom,
-    left: document.getElementById(id).getBoundingClientRect().left,
-    right: document.getElementById(id).getBoundingClientRect().right,
-    height: document.getElementById(id).getBoundingClientRect().height
+    top: ele.getBoundingClientRect().top,
+    bottom: ele.getBoundingClientRect().bottom,
+    left: ele.getBoundingClientRect().left,
+    right: ele.getBoundingClientRect().right,
+    height: ele.getBoundingClientRect().height
   };
 }
 export default {
   name: "flashPurchaseCarousel", // 闪购轮播图
-  created() {},
   mounted() {
-    let wrapperRect = getReac("flashPurchase-carousel-wrapper");
-    let wrapperWidth = Math.floor(wrapperRect.right - wrapperRect.left);
-
-    let itemWidth = Math.floor(wrapperWidth / 4);
-    let listWidth = itemWidth * this.flashPurchaseList.length;
-    this.setFlashPurchaseInfo({
-      wrapperWidth,
-      listWidth,
-      itemWidth,
-      itemsLength: this.flashPurchaseList.length,
-      current: 1,
-      total: Math.ceil(this.flashPurchaseList.length / 4),
-      last: this.flashPurchaseList.length % 4
-    });
-
-    this.setItemStyle({ width: itemWidth + "px" });
-    this.setListStyle({ width: listWidth + "px" });
+    this.wrapperRect = getReac(this.$refs["flashPurchase-carousel-wrapper"]);
+    this.wrapperWidth = Math.floor(
+      this.wrapperRect.right - this.wrapperRect.left
+    );
+    this.itemWidth = Math.floor(this.wrapperWidth / 4);
+    this.listWidth = this.itemWidth * this.flashPurchaseList.length;
+    this.$emit(
+      "changeTotal",
+      (this.total = Math.ceil(this.flashPurchaseList.length / 4))
+    );
+    this.itemStyle = { width: this.itemWidth + "px" };
+    this.listStyle = { width: this.listWidth + "px" };
   },
-
+  props: {
+    currentPage: {
+      type: Number,
+      default: 1
+    }
+  },
   methods: {
     goTo(item = "") {
-      this.$router.push({
-        name: "xxr",
-        params: item
-      });
-    },
-    ...mapActions("home", [
-      "setListStyle",
-      "setItemStyle",
-      "setFlashPurchaseInfo"
-    ])
+      console.log(item);
+      // this.$router.push({ name: "xxr", params: item });
+    }
   },
-  computed: {
-    ...mapGetters("home", ["listStyle", "itemStyle"])
+  watch: {
+    currentPage(currentPage, oldV) {
+      console.log(currentPage, oldV);
+      let translateX;
+
+      if (currentPage === this.total) {
+        translateX = this.listWidth - this.wrapperWidth;
+      } else {
+        translateX = (currentPage - 1) * this.wrapperWidth;
+      }
+      translateX = translateX === 0 ? 0 : `-${translateX}px`;
+      this.listStyle = Object.assign({}, this.listStyle, {
+        transform: `translateX(${translateX})`
+      });
+    }
   },
   data() {
     return {
+      wrapperRect: {
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        height: 0
+      },
+      total: 1,
+      wrapperWidth: 0,
+      itemWidth: 0,
+      listWidth: 0,
+      itemStyle: "",
+      listStyle: "",
       flashPurchaseList: [
         {
-          imgSrc:
-            "https://i8.mifile.cn/b2c-mimall-media/888410217eac616bea0ad249e6435139.jpg",
-          title: "米家蓝牙温湿度计 白色",
-          desc: "冷暖干湿，一目了然",
-          price: "1",
-          del: "69元"
+          rainbow: "orange",
+          imgUrl: "https://shonesinglone.leanapp.cn/imgs/xm5s-64g.png",
+          name: "小米5s 64GB",
+          price: "1999元",
+          desc: "“暗夜之眼”超感光相机"
         },
         {
-          imgSrc:
-            "https://i8.mifile.cn/b2c-mimall-media/f9215dc9023295de56cfc12179672a26.jpg",
-          title: "时怡什锦果仁(罐装1020g)",
-          desc: "5种果仁，用心甄选",
-          price: 109,
-          del: "148元"
+          rainbow: "blue",
+          imgUrl: "https://shonesinglone.leanapp.cn/imgs/xm5sp.png",
+          name: "小米5s Plus",
+          price: "2299元起",
+          desc: '5.7" 大屏双摄像头，轻薄金属机身'
         },
         {
-          imgSrc:
-            "https://i8.mifile.cn/v1/a1/4544f541-f2e1-f423-5cbf-88fe33c5e110.jpg",
-          title: "空气净化器滤芯 除甲醛增强版",
-          desc: "阻挡细菌，有效去除甲醛",
-          price: 139,
-          del: "169元"
+          rainbow: "red",
+          imgUrl: "https://shonesinglone.leanapp.cn/imgs/xmmix.png",
+          name: "小米MIX",
+          price: "3499元起",
+          desc: '6.4" 全面屏，全陶瓷机身'
         },
         {
-          imgSrc:
-            "https://i8.mifile.cn/v1/a1/db79032f-f017-5da6-8068-23118a0cf491.jpg",
-          title: "米家空气净化器滤芯 抗菌版 紫色",
-          desc: "净化室内空气看不见的细菌",
-          price: 155,
-          del: "159元"
+          rainbow: "green",
+          imgUrl: "https://shonesinglone.leanapp.cn/imgs/xmds4a_49.png",
+          name: "小米电视4A 49英寸 标准版",
+          price: "2299元",
+          desc: "直降300元，全高清HDR "
         },
         {
-          imgSrc:
-            "https://i8.mifile.cn/b2c-mimall-media/be87a8db5206f7504720327bba1a24fa.jpg",
-          title: "最生活毛巾816感恩套装",
-          desc: "816感恩套装（浴巾+毛巾+方巾） 限量秒杀",
-          price: 81,
-          del: "133元"
+          imgUrl: "https://shonesinglone.leanapp.cn/imgs/xmbjb.png",
+          name: "小米笔记本",
+          price: "3599元起",
+          desc: "更轻更薄，像杂志一样随身携带"
         },
         {
-          imgSrc:
-            "https://i8.mifile.cn/v1/a1/0c22de9a-46c2-2c7d-9888-6058ce73d378.jpg",
-          title: "米家多功能网关 白色",
-          desc: "米家智能配件控制中心",
-          price: 119,
-          del: "149元"
+          imgUrl: "https://shonesinglone.leanapp.cn/imgs/xmyddy.png",
+          name: "10000mAh小米移动电源2",
+          price: "79元",
+          desc: "双向快充，高密度锂聚合物电芯"
         },
         {
-          imgSrc: "https://i8.mifile.cn/a1/pms_1512725431.07341927.jpg",
-          title: "小米降噪耳机 黑色",
-          desc: "双动圈+动铁声学架构",
-          price: 259,
-          del: "299元"
+          imgUrl: "https://shonesinglone.leanapp.cn/imgs/xmsh.png",
+          name: "小米手环 2",
+          price: "149元",
+          desc: "OLED 显示屏幕，升级计步算法"
         },
         {
-          imgSrc:
-            "https://i8.mifile.cn/v1/a1/26f35fd6-ad98-8c3b-8d38-84c797ac7dd2.jpg",
-          title: "8H护颈乳胶枕",
-          desc: "多重新科技 升级好睡眠",
-          price: 229,
-          del: "239元"
+          imgUrl: "https://shonesinglone.leanapp.cn/imgs/xmdfb.jpg",
+          name: "米家压力IH电饭煲",
+          price: "999元",
+          desc: "智能烹饪，压力IH加热技术"
         },
         {
-          imgSrc:
-            "https://i8.mifile.cn/v1/a1/b45d9673-32fa-251a-68b5-791f3cb7e65e.jpg",
-          title: "米兔积木机器人",
-          desc: "978个零件，手机智能遥控",
-          price: 399,
-          del: "499元"
+          imgUrl: "https://shonesinglone.leanapp.cn/imgs/mjjhq.png",
+          name: "米家空气净化器Pro",
+          price: "1499元",
+          desc: "OLED显示屏幕，激光颗粒物传感器"
+        },
+        {
+          imgUrl: "https://shonesinglone.leanapp.cn/imgs/xmwf.png",
+          name: "小米路由器3",
+          price: "149元",
+          desc: "更快更强，不止四天线"
         }
       ]
     };
@@ -155,43 +165,60 @@ export default {
 
 .flashPurchase-carousel-wrapper {
   // outline: 16px solid red;
-  height: 320px;
+  position: absolute;
+  top: 0;
+  left: 246px;
+  right: 0;
+  bottom: 0;
   overflow: hidden;
-  flex: 1;
 
   .flashPurchase-list {
-    outline: 16px solid red;
-    height: 100%;
-    transition: transform 0.5s ease-in-out;
-    display: flex;
-    flex-flow: row nowrap;
+    // outline: 16px solid red;
+    height: 99%;
+    transition: all 0.5s ease-in-out;
 
     .item {
       transition: width 1.5s ease-in;
       box-sizing: border-box;
       position: relative;
-      display: flex;
-      flex-flow: column nowrap;
-      justify-content: center;
-      align-items: center;
-      width: 0;
+      display: inline-block;
       height: 100%;
-      padding: 2px 0 0 1.90px;
+      padding: 2px 0 0 1.9px;
       background-clip: content-box;
       transition: all 1s;
 
-      &:hover {
-        position: relative;
-        transform: translate3d(4px, 4px, 0) scale(0.94, 0.94);
-
-        @include box-shadow();
-      }
       a {
         color: #212121;
         text-decoration: none;
       }
 
+      .rainbow {
+        &-orange {
+          border-top: 1px solid;
+          border-top-color: #ffac13;
+        }
+        &-green {
+          border-top: 1px solid;
+          border-top-color: #83c44e;
+        }
+        &-blue {
+          border-top: 1px solid;
+          border-top-color: #2196f3;
+        }
+        &-red {
+          border-top: 1px solid;
+          border-top-color: #e53935;
+        }
+      }
+
       .content {
+        // outline: 1px solid rebeccapurple;
+        margin: 1px 5px 0;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
         display: flex;
         flex-flow: column nowrap;
         justify-content: center;
@@ -200,42 +227,41 @@ export default {
         .bg {
           // outline: 1px solid rebeccapurple;
           background: rgba(0, 0, 0, 0.01);
-          padding: 2px 0 2px 1.90px;
+          padding: 2px 0 2px 1.9px;
           position: absolute;
           top: 0;
           right: 0;
           bottom: 0;
           left: 0;
+          z-index: 1;
           cursor: pointer;
         }
 
         .thumb {
           color: #757575;
           text-decoration: none;
-
-          img {
-            width: 160px;
-            height: 160px;
-          }
+          width: 160px;
+          height: 160px;
         }
         .title {
-          margin: 1.90px 0 4px;
-          width: 60%;
+          margin: 2px 0 4px;
           font-size: 16px;
+          width: 100%;
+          text-align: center;
           font-weight: 400;
           text-overflow: ellipsis;
           white-space: nowrap;
           overflow: hidden;
         }
         .desc {
-          width: 60%;
+          text-align: center;
           height: 18px;
           margin: 0 20px 12px;
+          width: 100%;
           font-size: 12px;
           text-overflow: ellipsis;
           white-space: nowrap;
           overflow: hidden;
-          _zoom: 1;
           color: #b0b0b0;
         }
         .price {
@@ -248,6 +274,7 @@ export default {
             text-decoration: line-through;
           }
         }
+        @include elevation4();
       }
     }
   }

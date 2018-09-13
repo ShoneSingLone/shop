@@ -1,5 +1,5 @@
 <template>
-  <main class="main">
+  <div class="main">
     <bn-bar></bn-bar>
     <top-bar></top-bar>
     <site-header></site-header>
@@ -7,10 +7,10 @@
       <carousel></carousel>
       <category></category>
     </div>
-    <!--     <flash-purchase/>
+    <hero-sub></hero-sub>
+    <flash-purchase></flash-purchase>
     <site-footer></site-footer>
- -->
-  </main>
+  </div>
 </template>
 
 <script>
@@ -43,7 +43,9 @@ export default {
     carousel: () =>
       import(/* webpackChunkName: "Carousel" */ "./components/Carousel"),
     category: () =>
-      import(/* webpackChunkName: "category" */ "./components/Category"),
+      import(/* webpackChunkName: "Category" */ "./components/Category"),
+    "hero-sub": () =>
+      import(/* webpackChunkName: "HeroSub" */ "./components/HeroSub"),
     "site-footer": () =>
       import(/* webpackChunkName: "Footer" */ "./components/Footer")
   },
@@ -63,7 +65,7 @@ export default {
   > .banner-wrapper {
     position: relative;
     width: 1226px;
-    margin: 0 auto 16px;
+    margin: 0 auto 15px;
     height: 460px;
   }
   .container {

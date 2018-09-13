@@ -54,12 +54,24 @@ this.$router.push(routePath);
 
 - 整体布局是传统行列排版， 划分为row单独处理。 固定宽`1226px`居中 `margin:0 auto;`
 - [iconfont](http://www.iconfont.cn/)找图标，购物车之类的，随便选了几个。[如何操作](http://www.iconfont.cn/help/detail?helptype=code)
-
-```html
-  <link rel="iconfont" href="https://at.alicdn.com/t/font_832872_j0jyooqtv2r.css">
-```
-
 - ![iconfont](./src/assets/doc/iconfont.png)
+
+```js
+(() => {
+  function dynamicLoadingCSS(cssURL) {
+    let linkTag = document.createElement("link");
+    linkTag.setAttribute(
+      "href",
+      cssURL
+    );
+    linkTag.setAttribute("rel", "stylesheet");//不加这个不行? HTML5不是不
+    document.head.appendChild(linkTag);
+  }
+  let cssURL = "http://at.alicdn.com/t/font_832872_7e1nwvara34.css"
+  dynamicLoadingCSS(cssURL);
+})();
+
+```
 
 ---
 
@@ -140,6 +152,36 @@ this.$router.push(routePath);
   </li>
 </ul>
 ```
+
+- Carousel
+- ![Carousel](./src/assets/doc/carousel.gif)
+
+基于Vue，关注的是数据状态。
+
+- setInterval持续切换当前展示的`currentSlide`; 
+- 下标到达临界时的处理
+
+```js
+function clickNext() {
+  vm.carousel.currentSlide++;
+  if (vm.carousel.currentSlide >= slides.length) {
+    vm.carousel.currentSlide = 0;
+  }
+}
+function clickPrev() {
+  vm.carousel.currentSlide--;
+  if (vm.carousel.currentSlide <= -1) {
+    vm.carousel.currentSlide = slides.length - 1;
+  }
+}
+```
+
+---
+
+- FlashPurchase
+- ![FlashPurchase](./src/assets/doc/flashpurchase.gif)
+- 倒计时：首先获取当前时间，计算分钟数，用定时器修改时间表。
+- 按钮：利用transform translateX transition 位移，类似分页的功能total current之类的。
 
 
 

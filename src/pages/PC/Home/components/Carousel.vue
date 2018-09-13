@@ -60,7 +60,6 @@ export default {
         }
 
         // 图片自动轮播
-        let timer;
         // handle event
         function mouseover() {
           stopAutoPlay();
@@ -69,14 +68,14 @@ export default {
           startAutoPlay();
         }
         function startAutoPlay() {
-          timer = setInterval(function() {
+          startAutoPlay.timer = setInterval(function() {
             clickNext();
           }, 1000 * 3);
         }
         // 清除定时器,停止自动播放
         function stopAutoPlay() {
-          if (timer) {
-            clearInterval(timer);
+          if (startAutoPlay.timer) {
+            clearInterval(startAutoPlay.timer);
           }
         }
         return {

@@ -1,78 +1,74 @@
 <template>
-    <footer>
-        <div class="service">
-            <a :href="item.link" v-for="(item,index) in service" :key="index">
-                <span class="iconfont">{{item.icon}}</span>
-                <span class="text">{{item.text}}</span>
-            </a>
-        </div>
-        <div class="link">
-            <div class="item" v-for="(item,index) in link" :key="index">
-                <span class="title">{{item.title}}</span>
-                <a :href="key.link" v-for="(key) in item.text" :key="key">
-                    <span>{{key.title}}</span>
-                </a>
-            </div>
-            <div class="contact">
-                <span class="phone">小米客服</span>
-                <span class="text">7x24小时全天陪伴<br>为您解决问题</span>
-                <span class="customer">立即开始咨询</span>
-            </div>
-        </div>
-        <div class="info">
-            <div class="info-container">
-                <div class="mi-logo"><img src="https://s01.mifile.cn/i/logo-footer.png"></div>
-                <div class="text">
-                    <ul>
-                        <li v-for="(item, index) in content" :key="index">
+  <footer>
+    <div class="service">
+      <a :href="item.link" v-for="(item,index) in service" :key="index">
+        <span :class="['iconfont',`icon-${item.icon}`]"></span>
+        <span class="text">{{item.text}}</span>
+      </a>
+    </div>
+    <div class="link">
+      <div class="item" v-for="(item,index) in link" :key="index">
+        <span class="title">{{item.title}}</span>
+        <a :href="key.link" v-for="(key) in item.text" :key="key">
+          <span>{{key.title}}</span>
+        </a>
+      </div>
+      <div class="contact">
+        <span class="phone">小米客服</span>
+        <span class="text">7x24小时全天陪伴<br>为您解决问题</span>
+        <span class="customer">立即开始咨询</span>
+      </div>
+    </div>
+    <div class="info">
+      <div class="info-container">
+        <div class="mi-logo"><img src="https://shonesinglone.leanapp.cn/imgs/logo-footer.png"></div>
+        <div class="text">
+          <ul>
+            <li v-for="(item, index) in content" :key="index">
 
-                            <a :href="item.url">{{item.name}}</a>
-                            <span class="separate">|</span>
-                        </li>
-                    </ul>
-                    <p>©mi.com 京ICP证110507号 京ICP备10046444号 京公网安备11010802020134号 京网文[2014]0059-0009号 </p>
-                    <p>违法和不良信息举报电话：185-0130-1238，本网站所列数据，除特殊说明，所有数据均出自我司实验室测试</p>
-                </div>
-                <div class="info-logo" v-for="(item, index) in logo" :key="index">
-                    <a :href="item.link">
-                        <img :src="item.imgUrl">
-                    </a>
-                </div>
-            </div>
+              <a :href="item.url">{{item.name}}</a>
+              <span class="separate">|</span>
+            </li>
+          </ul>
+          <p>©mi.com 京ICP证110507号 京ICP备10046444号 京公网安备11010802020134号 京网文[2014]0059-0009号 </p>
+          <p>违法和不良信息举报电话：185-0130-1238，本网站所列数据，除特殊说明，所有数据均出自我司实验室测试</p>
         </div>
-        <div class="slogan"><img src="https://s01.mifile.cn/i/slogan2016.png"></div>
-    </footer>
+        <div class="info-logo" v-for="(item, index) in logo" :key="index">
+          <a :href="item.link">
+            <img :src="item.imgUrl">
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="slogan"><img src="https://s01.mifile.cn/i/slogan2016.png"></div>
+  </footer>
 </template>
 
 <script>
 export default {
+  name: "siteFooter",
   data() {
     return {
       service: [
         {
           text: "预约维修服务",
-          icon: "\ue609",
-          link: "https://www.mi.com/static/fast/"
+          icon: "weixiu"
         },
         {
           text: "7天无理由退货",
-          icon: "\ue64c",
-          link: "https://www.mi.com/service/exchange#back"
+          icon: "7tiantuihuan"
         },
         {
           text: "15天免费换货",
-          icon: "\ue608",
-          link: "https://www.mi.com/service/exchange#free"
+          icon: "15tianwuliyoutuihuo"
         },
         {
           text: "满150元包邮",
-          icon: "\ue604",
-          link: "https://www.mi.com/service/exchange#mail"
+          icon: "shopping"
         },
         {
           text: "520余家售后网点",
-          icon: "\ue607",
-          link: "https://www.mi.com/static/maintainlocation/"
+          icon: "icon--"
         }
       ],
       link: [
