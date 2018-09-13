@@ -3,7 +3,7 @@
     <div class="channel-wrapper">
       <ul class="channel-list">
         <li class="channel" v-for="(channel, index) in channelList" :key="index">
-          <a href="javascript:void(0)">
+          <a @click="goTo" href="javascript:void(0)">
             <span :class="['iconfont',`icon-${channel.icon}`]"></span>
             <span class="name">{{channel.name}}</span>
           </a>
@@ -12,7 +12,7 @@
     </div>
     <div class="promo-wrapper">
       <ul class="promo-list">
-        <li class="promo" :style="{'background':`url(${promo.imgUrl}) center center/cover no-repeat`}" v-for="(promo, index) in promoList" :key="index">
+        <li @click="goTo" class="promo" :style="{'background':`url(${promo.imgUrl}) center center/cover no-repeat`}" v-for="(promo, index) in promoList" :key="index">
         </li>
       </ul>
     </div>
@@ -64,6 +64,11 @@ export default {
         }
       ]
     };
+  },
+  methods: {
+    goTo() {
+      this.$router.push({ name: "p.p" });
+    }
   }
 };
 </script>
@@ -140,6 +145,9 @@ $width: 1226px;
         width: 316px;
         margin-left: 15px;
         height: $height;
+        &:hover {
+          cursor: pointer;
+        }
       }
     }
   }

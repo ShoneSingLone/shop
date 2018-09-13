@@ -7,7 +7,7 @@
         <div class="header-nav">
           <ul class="nav-wrapper">
             <li v-for="(navItem, index) of navItems" :key="index" class="item" @mouseenter="enterNavItem(navItem)" @mouseleave="leaveNavItem()">
-              <a href="javascript: void(0);">{{navItem.name}}</a>
+              <a @click="goTo" href="javascript: void(0);">{{navItem.name}}</a>
             </li>
           </ul>
         </div>
@@ -43,7 +43,7 @@
           <p class="info" v-if="tabItem.info">
             <span class="flag">{{tabItem.info}}</span>
           </p>
-          <a :href="tabItem.link"><img :src="tabItem.imgUrl" :alt="tabItem.name"></a>
+          <a @click="goTo(tabItem.link)" href="javascript:void(0);"><img :src="tabItem.imgUrl" :alt="tabItem.name"></a>
           <p class="name">{{tabItem.name}}</p>
           <p class="price">{{tabItem.price}}</p>
         </li>
@@ -415,6 +415,9 @@ export default {
   },
   computed: {},
   methods: {
+    goTo() {
+      this.$router.push({ name: "p.p" });
+    },
     searchInputFocus() {
       this.isInputFocus = true;
     },

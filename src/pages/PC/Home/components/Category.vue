@@ -10,7 +10,7 @@
           <ul class="detail-wrapper">
             <li class="detail" v-for="(detail, index) in category.list" :key="index">
               <div class="detail-inner">
-                <a class="link" href="javascript:void(0)">
+                <a class="link" @click="goTo" href="javascript:void(0)">
                   <img :src="detail.imgUrl" alt="" />
                   <span class="text-name">{{detail.name}}</span>
                 </a>
@@ -537,6 +537,10 @@ export default {
   },
   ready() {},
   methods: {
+    goTo() {
+      this.$router.push({ name: "p.p" });
+    },
+
     isEnter(currType) {
       this.currGoods = this[currType];
       this.goodsStatus = true;

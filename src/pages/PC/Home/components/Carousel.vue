@@ -92,9 +92,8 @@ export default {
     };
   },
   methods: {
-    goTo(item = "") {
-      console.log(item);
-      // this.$router.push({ name: "product", params: item });
+    goTo() {
+      this.$router.push({ name: "p.p" });
     }
   }
 };

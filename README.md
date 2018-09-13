@@ -181,9 +181,58 @@ function clickPrev() {
 - FlashPurchase
 - ![FlashPurchase](./src/assets/doc/flashpurchase.gif)
 - 倒计时：首先获取当前时间，计算分钟数，用定时器修改时间表。
+
+```js
+    /**
+     * 计时器，修改时间状态
+     */
+    function countTime() {
+      let date = new Date();
+      let now = date.getTime();
+      let diffTime = end - now;
+      if (diffTime >= 0) {
+        let h = Math.floor((diffTime / 1000 / 60 / 60) % 24);
+        let m = Math.floor((diffTime / 1000 / 60) % 60);
+        let s = Math.floor((diffTime / 1000) % 60);
+        if (h < 10) {
+          h = "0" + h;
+        }
+        if (m < 10) {
+          m = "0" + m;
+        }
+        if (s < 10) {
+          s = "0" + s;
+        }
+        vm.timeInfoH = h;
+        vm.timeInfoM = m;
+        vm.timeInfoS = s;
+      } else {
+        end = getEndTiem();
+      }
+      setTimeout(countTime, 1000);
+    }
+```
+
 - 按钮：利用transform translateX transition 位移，类似分页的功能total current之类的。
 
+```js
+  watch: {
+    currentPage(currentPage, oldV) {
+      console.log(currentPage, oldV);
+      let translateX;
 
+      if (currentPage === this.total) {
+        translateX = this.listWidth - this.wrapperWidth;
+      } else {
+        translateX = (currentPage - 1) * this.wrapperWidth;
+      }
+      translateX = translateX === 0 ? 0 : `-${translateX}px`;
+      this.listStyle = Object.assign({}, this.listStyle, {
+        transform: `translateX(${translateX})`
+      });
+    }
+  },
+```
 
 居中
 定位

@@ -8,5 +8,10 @@ export default {
         name: 'p.h',
         component: () =>
             import ( /* webpackChunkName: "home" */ '@/pages/PC/Home/Home'),
+    }, {
+        path: 'product', //home
+        name: 'p.p',
+        component: () =>
+            import ( /* webpackChunkName: "home" */ '@/pages/PC/Product/Product'),
     }]
 }

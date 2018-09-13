@@ -1,16 +1,16 @@
 <template>
   <footer>
     <div class="service">
-      <a :href="item.link" v-for="(item,index) in service" :key="index">
+      <a :href="item.link" v-for="(item,index) of service" :key="index">
         <span :class="['iconfont',`icon-${item.icon}`]"></span>
         <span class="text">{{item.text}}</span>
       </a>
     </div>
     <div class="link">
-      <div class="item" v-for="(item,index) in link" :key="index">
+      <div class="item" v-for="(item,index) of link" :key="index">
         <span class="title">{{item.title}}</span>
-        <a :href="key.link" v-for="(key) in item.text" :key="key">
-          <span>{{key.title}}</span>
+        <a :href="textItem.link" v-for="(textItem, subIndex) in item.text" :key="subIndex">
+          <span>{{textItem.title}}</span>
         </a>
       </div>
       <div class="contact">

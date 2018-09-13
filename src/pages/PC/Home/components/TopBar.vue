@@ -45,33 +45,24 @@ export default {
   data() {
     return {
       navItems: [
-        { name: "小米商城", url: "" },
-        { name: "MIUI", url: "" },
-        { name: "IoT", url: "" },
-        { name: "云服务", url: "" },
-        { name: "金融", url: "" },
-        { name: "小爱开放平台", url: "" },
-        { name: "有品", url: "" },
-        { name: "政企服务", url: "" },
-        {
-          name: "Select Region",
-          url: "https://www.mi.com/#J_modal-globalSites"
-        }
+        { name: "小米商城", url: "product" },
+        { name: "MIUI", url: "product" },
+        { name: "IoT", url: "product" },
+        { name: "云服务", url: "product" },
+        { name: "金融", url: "product" },
+        { name: "小爱开放平台", url: "product" },
+        { name: "有品", url: "product" },
+        { name: "政企服务", url: "product" },
+        { name: "Select Region" }
       ],
-      infoItems: [
-        {
-          name: "登录",
-          url: "https://order.mi.com/site/login?redirectUrl=https://www.mi.com/"
-        },
-        { name: "注册", url: "https://account.xiaomi.com/pass/register" },
-        { name: "消息通知", url: "https://order.mi.com/message/list" }
-      ],
+      infoItems: [{ name: "登录" }, { name: "注册" }, { name: "消息通知" }],
       cartStatus: false
     };
   },
   methods: {
     navTo(nav, index) {
-      console.log(nav, index);
+      console.log(nav.url, index);
+      this.$router.push({ name: "p.p" });
     },
     isEnter: function() {
       this.cartStatus = true;

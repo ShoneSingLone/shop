@@ -2,8 +2,8 @@
   <div class="flashPurchase-carousel-wrapper" ref="flashPurchase-carousel-wrapper">
     <ul class="flashPurchase-list" v-bind:style="listStyle" @click="goTo">
       <li class="item " :style="itemStyle" v-for="(flashPurchase, index) in flashPurchaseList " :key="index ">
-        <div :class="['content',`rainbow-${flashPurchase.rainbow}`]">
-          <div class="bg ">
+        <div @click="goTo" :class="['content',`rainbow-${flashPurchase.rainbow}`]">
+          <div class="bg">
           </div>
           <a class="thumb exposure" :style="{'background':`url(${flashPurchase.imgUrl}) center center/cover`}"> </a>
           <h3 class="title ">
@@ -54,9 +54,8 @@ export default {
     }
   },
   methods: {
-    goTo(item = "") {
-      console.log(item);
-      // this.$router.push({ name: "xxr", params: item });
+    goTo() {
+      this.$router.push({ name: "p.p" });
     }
   },
   watch: {
