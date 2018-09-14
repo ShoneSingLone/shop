@@ -36,18 +36,44 @@ body,
   font-size: 16px;
   overflow: hidden;
 }
+#pc {
+  height: 100%;
+  font-size: 16px;
+  overflow: hidden;
+}
 ```
 
-- 在App.vue中完成对APP size的变化的监听，以满足所谓响应式。
+---
+ 在App.vue中
+- 完成对APP size的变化的监听，以满足所谓响应式。
 - 响应size的变化而跳转相应的视图。
+  - setCurrentMode MODE.pc:1;MODE.mobile:2；
+  - created 检测当前path设置currentPath
+  - appWidth 变动
+  - 如果currentMode undefined（默认的是假值0）；
+  - 如果currentMode 已配置（在created中检测当前的path是否为主页）判断当前与配置是否一致，一致则跳转currentPath，否则setCurrentMode为当前状态并跳回主页；
 
 ```js
-// in App.vue
-//Pixel2 411*731 viewport的作用？
+console.log(newW, oldW);
+//Pixel2 411*731
 // 判定是否为PC视图
-let routePath = newW > 411 ? { name: "p.h" } : { name: "m.h" };
-// routePath可根据其他属性（currentShowView）改变以保持视图一致
-this.$router.push(routePath);
+let currentMode = newW < 420 ? MODE.mobile : MODE.pc;
+if (currentMode === this.currentMode) {
+  // App是第一个加载也是最后一个销毁
+  this.$router.push({ path: this.currentPath });
+} else {
+  this.setCurrentMode(currentMode);
+  this.$router.push({
+    name: (() => {
+      let switchPathName = {
+        [MODE.mobile]: "m.h",
+        [MODE.pc]: "p.h"
+      };
+      return switchPathName[currentMode];
+    })()
+  });
+}
+
 ```
 
 ### [Home](https://www.mi.com/)
@@ -233,6 +259,14 @@ function clickPrev() {
     }
   },
 ```
+
+---
+
+商品概览页
+
+- 完成静态页面
+- 添加初始化状态类
+- 根据scrollY变动触发动画
 
 居中
 定位

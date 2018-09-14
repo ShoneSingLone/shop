@@ -54,13 +54,12 @@
     </div>
 </template>
 <script>
-
 export default {
-  name: 'InnerBox',
-  data () {
-    return {}
+  name: "InnerBox",
+  data() {
+    return {};
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

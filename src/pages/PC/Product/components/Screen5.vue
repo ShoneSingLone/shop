@@ -1,5 +1,5 @@
 <template>
-  <section class="screen-5 height800">
+  <section class="screen-5" :style="{height:`${height}px`}">
     <div class="wrapper">
       <p :class="['heading',headingDone?'':'init']">游戏、学习、拍照、有这一部就够了</p>
       <p :class="['subheading',subHeadingDone?'':'init']">看视频、拍摄高清视频与照片、视频聊天、一机多功能，让您生活更丰富精彩。</p>
@@ -8,7 +8,7 @@
   </section>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   name: "screen5",
@@ -30,10 +30,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("xxr", ["windowScrollY"])
+    ...mapState("pc.product", ["scrollY"])
   },
   watch: {
-    windowScrollY: function(newV, oldV) {
+    scrollY: function(newV, oldV) {
       console.log(newV, oldV);
 
       if (!this.isAnimateDone && this.inViewport) {
@@ -44,6 +44,7 @@ export default {
   },
   components: {},
   props: {
+    height: { type: Number, default: 800 },
     inViewport: {
       type: Boolean,
       required: true
@@ -104,7 +105,8 @@ export default {
   .back {
     width: 100%;
     height: 370px;
-    background: url(../img/bg-screen-5.png) no-repeat bottom center;
+    background: url(https://shonesinglone.leanapp.cn/imgs/bg-screen-5.png)
+      no-repeat bottom center;
     background-size: cover;
     position: absolute;
     bottom: -100px;

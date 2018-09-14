@@ -3,7 +3,7 @@
     <a href="javascript:void(0);" class="logo" @click="toggle"></a>
     <nav class="nav">
       <a href="javascript:void(0);" :class="['item', 'item_i_'+(index+1),currentNavItem===index?'active':'']" v-for="(navItem, index) in navItems" :key="index">{{navItem}}</a>
-      <a href="javascript:void(0);" class="item item_custom_button">立即购买 {{windowScrollY}}</a>
+      <a href="javascript:void(0);" class="item item_custom_button">立即购买 {{scrollY}}</a>
       <div class="item-tip" :class="[show?'left20':'']"></div>
     </nav>
 
@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   name: "section1",
@@ -27,7 +27,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["windowScrollY"])
+    ...mapState("pc.product", ["scrollY"])
   },
   components: {},
   props: ["navItems", "currentNavItem"],
@@ -47,8 +47,8 @@ export default {
   top: 0px;
   left: 0px;
   right: 0px;
-  z-index: 2;
-  height: 4rem;
+  z-index: 1;
+  height: 90px;
   background-color: #fafafa;
   color: #292e35;
   display: flex;
@@ -63,7 +63,7 @@ export default {
     height: 40px;
     width: 40px;
     margin-left: 1.5rem;
-    background: url("../img/logo.png") center center no-repeat;
+    background: url("/logo.png") center center no-repeat;
     background-color: $main-theme-color;
     display: block;
     font-size: 18px;

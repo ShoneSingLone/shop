@@ -1,5 +1,5 @@
 <template>
-  <section class="screen-3">
+  <section class="screen-3" :style="{height:`${height}px`}">
     <div :class="['phone',phoneDone?'done':'init']"></div>
     <div class="wrapper">
       <div :class="['heading',headingDone?'':'init']">外形小巧，功能强大的手机</div>
@@ -33,7 +33,7 @@
   </section>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   name: "screen3",
@@ -59,10 +59,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("xxr", ["windowScrollY"])
+    ...mapState("pc.product", ["scrollY"])
   },
   watch: {
-    windowScrollY: function(newV, oldV) {
+    scrollY: function(newV, oldV) {
       console.log(newV, oldV);
 
       if (!this.isAnimateDone && this.inViewport) {
@@ -73,6 +73,7 @@ export default {
   },
   components: {},
   props: {
+    height: { type: Number, default: 800 },
     inViewport: {
       type: Boolean,
       required: true
@@ -107,7 +108,7 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    background: url(../img/index_body_1.jpg) 25% 50% no-repeat,
+    background: url(/index_body_1.jpg) 25% 50% no-repeat,
       linear-gradient(90deg, #d34446 10%, #9e292f 90%);
 
     transition: all 3s;

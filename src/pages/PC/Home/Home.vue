@@ -37,7 +37,7 @@ export default {
     "site-header": () =>
       import(/* webpackChunkName: "SiteHeader" */ "./components/SiteHeader"),
     "top-bar": () =>
-      import(/* webpackChunkName: "TopBar" */ "./components/TopBar"),
+      import(/* webpackChunkName: "SiteTopBar" */ "./components/SiteTopBar"),
     "flash-purchase": () =>
       import(/* webpackChunkName: "FlashPurchase" */ "./components/FlashPurchase"),
     carousel: () =>
@@ -46,8 +46,7 @@ export default {
       import(/* webpackChunkName: "Category" */ "./components/Category"),
     "hero-sub": () =>
       import(/* webpackChunkName: "HeroSub" */ "./components/HeroSub"),
-    "site-footer": () =>
-      import(/* webpackChunkName: "Footer" */ "./components/Footer")
+    "site-footer": () => import(/* webpackChunkName: "Footer" */ "@c/PC/Footer")
   },
   data() {
     return {};

@@ -1,6 +1,6 @@
 <template>
 
-  <section class="screen-4 height800">
+  <section class="screen-4" :style="{height:`${height}px`}">
     <div class="heading-wrapper">
       <div :class="['heading',headingDone?'':'init']">丰富的手机型号</div>
       <div :class="['subheading',subHeadingDone?'':'init']">找到适合你的手机</div>
@@ -14,7 +14,7 @@
   </section>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   name: "screen4",
@@ -42,10 +42,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("xxr", ["windowScrollY"])
+    ...mapState("pc.product", ["scrollY"])
   },
   watch: {
-    windowScrollY: function(newV, oldV) {
+    scrollY: function(newV, oldV) {
       console.log(newV, oldV);
 
       if (!this.isAnimateDone && this.inViewport) {
@@ -56,6 +56,7 @@ export default {
   },
   components: {},
   props: {
+    height: { type: Number, default: 800 },
     inViewport: {
       type: Boolean,
       required: true
@@ -179,19 +180,23 @@ export default {
           color: #93999f;
         }
         &.item_i_0 {
-          background: url("../img/phone-1.png") center left no-repeat;
+          background: url("https://shonesinglone.leanapp.cn/imgs/phone-1.png")
+            center left no-repeat;
         }
 
         &.item_i_1 {
-          background: url("../img/phone-2.png") center left no-repeat;
+          background: url("https://shonesinglone.leanapp.cn/imgs/phone-2.png")
+            center left no-repeat;
         }
 
         &.item_i_2 {
-          background: url("../img/phone-3.png") center left no-repeat;
+          background: url("https://shonesinglone.leanapp.cn/imgs/phone-3.png")
+            center left no-repeat;
         }
 
         &.item_i_3 {
-          background: url("../img/phone-4.png") center left no-repeat;
+          background: url("https://shonesinglone.leanapp.cn/imgs/phone-4.png")
+            center left no-repeat;
         }
       }
     }

@@ -2,7 +2,9 @@ const state = {
     appSize: {
         height: 0,
         width: 0
-    }
+    },
+    currentPath: "",
+    currentMode: 0, // pc: 1, mobile: 2 default:false
 };
 
 const getters = {
@@ -11,13 +13,19 @@ const getters = {
     },
     appWidth(state) {
         return state.appSize.width;
+    },
+    currentPath(state) {
+        return state.currentPath
+    },
+    currentMode(state) {
+        return state.currentMode
     }
 }
 const actions = {
-    setAppSize({
+    setCurrentPath({
         commit
-    }, rect) {
-        return commit('setAppSize', rect)
+    }, path) {
+        return commit('setCurrentPath', path)
     },
 }
 const mutations = {
@@ -27,6 +35,12 @@ const mutations = {
     }) {
         state.appSize.height = Math.ceil(height);
         state.appSize.width = Math.ceil(width);
+    },
+    setCurrentPath(state, path) {
+        state.currentPath = path;
+    },
+    setCurrentMode(state, mode) {
+        state.currentMode = mode;
     },
 }
 

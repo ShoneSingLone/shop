@@ -4,11 +4,23 @@
   </div>
 </template>
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapMutations, mapActions, mapGetters } from "vuex";
 import debounce from "lodash.debounce";
+let MODE = {
+  pc: 1,
+  mobile: 2
+};
 
 export default {
   name: "app",
+  created() {
+    let currentPath = location.hash.split("#");
+    if (currentPath.length > 1 && currentPath[1].length > 1) {
+      let flag = currentPath[1].split("/")[1];
+      this.setCurrentMode(flag === "pc" ? MODE.pc : MODE.mobile);
+      this.setCurrentPath(currentPath[1]);
+    }
+  },
   mounted() {
     console.log("App mounted");
     this.setAppSize(document.body.getBoundingClientRect());
@@ -28,19 +40,37 @@ export default {
     });
   },
   computed: {
-    ...mapGetters(["appWidth", "appHeight"])
+    ...mapGetters(["appWidth", "appHeight", "currentPath", "currentMode"])
   },
   methods: {
-    ...mapActions(["setAppSize"])
+    ...mapActions([]),
+    ...mapMutations(["setAppSize", "setCurrentPath", "setCurrentMode"])
   },
   watch: {
     appWidth(newW, oldW) {
+      console.log(newW, oldW);
       //Pixel2 411*731
       // 判定是否为PC视图
-      let routePath = newW > 420 ? { name: "p.h" } : { name: "m.h" };
-      // routePath可根据其他属性（currentShowView）改变以保持视图一致
-      console.log("appWidth newW,oldW:", newW, oldW, routePath);
-      this.$router.push(routePath);
+      let currentMode = newW < 420 ? MODE.mobile : MODE.pc;
+      // App是第一个加载也是最后一个销毁
+      if (currentMode === this.currentMode) {
+        this.$router.push({ path: this.currentPath });
+      } else {
+        this.setCurrentMode(currentMode);
+        this.$router.push({
+          name: (() => {
+            let switchPathName = {
+              [MODE.mobile]: "m.h",
+              [MODE.pc]: "p.h"
+            };
+            return switchPathName[currentMode];
+          })()
+        });
+      }
+    },
+    $route(newPath, oldPath) {
+      console.log("newPath, oldPath", newPath, oldPath);
+      this.setCurrentPath(newPath);
     }
   }
 };

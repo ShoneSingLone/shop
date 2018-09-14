@@ -26,7 +26,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: url(../img/bg-screen-buy.png) no-repeat bottom center #2b333b;
+  background: url(/bg-screen-buy.png) no-repeat bottom center #2b333b;
 
   .button {
     width: 15rem;

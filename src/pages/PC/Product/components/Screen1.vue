@@ -1,5 +1,5 @@
 <template>
-  <section class="screen-1 height800">
+  <section class="screen-1" :style="{height:`${height}px`}">
     <div class="heading-wrapper">
       <div :class="['heading',headingDone?'':'init']">
         <p>
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   name: "section1",
@@ -40,15 +40,16 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("xxr", ["windowScrollY"])
+    ...mapState("pc.product", ["scrollY"])
   },
   watch: {
-    windowScrollY: function(newV, oldV) {
+    scrollY: function(newV, oldV) {
       console.log(newV, oldV);
     }
   },
   components: {},
   props: {
+    height: { type: Number, default: 800 },
     inViewport: {
       type: Boolean,
       required: true
@@ -128,8 +129,8 @@ export default {
       top: 0;
       width: 100%;
       height: 20rem;
-      background: url(../img/screen-1-phone.png) center center/70% auto
-        no-repeat;
+      background: url(https://shonesinglone.leanapp.cn/imgs/screen-1-phone.png)
+        center center/70% auto no-repeat;
       z-index: 1;
       transform: translate(0, 20%);
 
@@ -145,8 +146,8 @@ export default {
       top: 8rem;
       width: 100%;
       height: 20rem;
-      background: url(../img/screen-1-shadow.png) center center/contain
-        no-repeat;
+      background: url(https://shonesinglone.leanapp.cn/imgs/screen-1-shadow.png)
+        center center/contain no-repeat;
       transition: all 1s ease-in-out 0.5s;
       opacity: 1;
       &.init {

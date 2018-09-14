@@ -1,24 +1,26 @@
 <template>
   <div class="container">
-    <!-- <img id="img1" style="position:absolute;visibility:hidden" src="http://pic1.win4000.com/wallpaper/f/51c3bb99a21ea.jpg"> -->
-    <header id="header" :class="['header-wrapper',{'hide':isHeaderHide},{'none':isHeaderNone}]">
-      <a href="javascript:void(0);" class="logo" @click="goHome"></a>
-      <nav>
-        <ul class="nav">
-          <li @click="toScreen(index)" :class="['item', 'item_i_'+(index+1),{active:currentNavItem===index}]" v-for="(navItem, index) in navItems" :key="index">
-            <a href="javascript:void(0);">{{navItem}}</a>
-          </li>
-          <li class="item item_custom_button">
-            <a href="javascript:void(0);">立即购买</a>
-          </li>
-        </ul>
-      </nav>
-    </header>
-    <screen1 id="screen1" :inViewport="isInViewport.screen1" />
-    <screen2 id="screen2" :inViewport="isInViewport.screen2" />
-    <screen3 id="screen3" :inViewport="isInViewport.screen3" />
-    <screen4 id="screen4" :inViewport="isInViewport.screen4" />
-    <screen5 id="screen5" :inViewport="isInViewport.screen5" />
+    <div class="header-wrapper">
+      <header id="header" :class="['header',{'hide':isHeaderHide},{'none':isHeaderNone}]">
+        <a href="javascript:void(0);" class="logo" @click="goHome"></a>
+        <nav>
+          <ul class="nav">
+            <li @click="toScreen(index)" :class="['item', 'item_i_'+(index+1),{active:currentNavItem===index}]" v-for="(navItem, index) in navItems" :key="index">
+              <a href="javascript:void(0);">{{navItem}}</a>
+            </li>
+            <li class="item item_custom_button">
+              <a href="javascript:void(0);">立即购买</a>
+            </li>
+          </ul>
+        </nav>
+      </header>
+    </div>
+
+    <screen1 id="screen1" :inViewport="isInViewport.screen1" :height="appHeight" />
+    <screen2 id="screen2" :inViewport="isInViewport.screen2" :height="appHeight" />
+    <screen3 id="screen3" :inViewport="isInViewport.screen3" :height="appHeight" />
+    <screen4 id="screen4" :inViewport="isInViewport.screen4" :height="appHeight" />
+    <screen5 id="screen5" :inViewport="isInViewport.screen5" :height="appHeight" />
     <!-- <buy/> -->
 
     <div :class="['back',{'hide':isOutlineHide},{'none':isOutlineNone}]">
@@ -28,8 +30,9 @@
     <footer class=" footer ">
       © 8102 这不是网站只是些可预览的代码
     </footer>
+    <site-footer></site-footer>
 
-    <div :class="[ 'outline',{ 'hide':isOutlineHide},{ 'none':isOutlineNone}] ">
+    <div :class="['outline',{ 'hide':isOutlineHide},{ 'none':isOutlineNone}] ">
       <a @click="toScreen(index)" href="javascript:void(0); " :class="[ 'item', 'item_i_'+(index+1),currentNavItem===index? 'active': ''] " v-for="(navItem, index) in navItems " :key="index ">{{navItem}}</a>
     </div>
   </div>
@@ -43,8 +46,8 @@ import screen2 from "./components/Screen2";
 import screen3 from "./components/Screen3";
 import screen4 from "./components/Screen4";
 import screen5 from "./components/Screen5";
-import _ from "lodash";
-import { mapActions } from "vuex";
+import { throttle } from "lodash";
+import { mapMutations, mapGetters, mapState } from "vuex";
 
 function getReac(id) {
   return {
@@ -80,24 +83,26 @@ export default {
     ]
   },
   mounted() {
-    let vm = this;
-    function whenScroll() {
-      vm.windowScrollY = Math.floor(window.scrollY);
-    }
-    window.addEventListener(
-      "scroll",
-      _.throttle(whenScroll, 1000 * 0.5, { trailing: true })
-    );
-    setTimeout(() => {
-      this.scrollTo(0);
-      // init各个section所需要的高度数据，用于触发动画的计算
-      setTimeout(() => {
-        this.initScreenRect();
-      }, 1000);
-    }, 100);
+    this.$nextTick(() => {
+      this.$el.addEventListener(
+        "scroll",
+        throttle(
+          () => {
+            this.setScrollY(this.$el.scrollTop);
+          },
+          1000 * 0.5,
+          { trailing: true }
+        )
+      );
+    });
+    console.log();
+  },
+  computed: {
+    ...mapGetters(["appHeight"]),
+    ...mapState("pc.product", [""])
   },
   methods: {
-    ...mapActions("xxr", ["setWindowScrollY"]),
+    ...mapMutations("pc.product", ["setScrollY"]),
     initScreenRect() {
       try {
         this.rect.header = { ...getReac("header") };
@@ -178,8 +183,8 @@ export default {
     }
   },
   watch: {
-    // 当windowScrollY变化时处理各个状态
-    windowScrollY: function(newV, oldV) {
+    // 当scrollY变化时处理各个状态
+    scrollY: function(newV, oldV) {
       if (newV === 0) {
         this.initScreenRect();
       }
@@ -187,7 +192,7 @@ export default {
       this.setCurrentInViewport(newV, oldV);
 
       // nav与outline的显影处理
-      if (this.windowScrollY <= this.headerHeight) {
+      if (this.scrollY <= this.headerHeight) {
         if (oldV <= this.headerHeight) return false;
         this.show("Header").hide("Outline");
       } else {
@@ -213,11 +218,12 @@ export default {
     screen3,
     screen4,
     screen5,
-    buy
+    buy,
+    "site-footer": () => import(/* webpackChunkName: "Footer" */ "@c/PC/Footer")
   },
   data() {
     return {
-      windowScrollY: 0,
+      scrollY: 0,
       isHeaderHide: false,
       isHeaderNone: false,
       isOutlineHide: true,
@@ -241,33 +247,18 @@ export default {
       },
       currentNavItem: 0
     };
-  },
-  beforeRouteEnter(to, from, next) {
-    console.log("    // 在渲染该组件的对应路由被 confirm 前调用 ");
-    next();
-    // 不！能！获取组件实例 `this`
-    // 因为当守卫执行前，组件实例还没被创建
-  },
-  beforeRouteUpdate(to, from, next) {
-    console.log("    // 在当前路由改变，但是该组件被复用时调用 ");
-    next();
-    // 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，
-    // 由于会渲染同样的 Foo 组件，因此组件实例会被复用。而这个钩子就会在这个情况下被调用。
-    // 可以访问组件实例 `this`
-  },
-  beforeRouteLeave(to, from, next) {
-    console.log("    // 导航离开该组件的对应路由时调用 ");
-    next();
-    // 可以访问组件实例 `this`
   }
 };
 </script>
 
 
-<style lang='scss'>
+<style lang='scss' scoped>
 @import "../../../components/style/variables";
 @import "./base";
+
 .container {
+  height: 100%;
+  overflow-y: scroll;
   a {
     color: #14191e;
     text-decoration: none;
@@ -277,84 +268,105 @@ export default {
   }
 
   .header-wrapper {
-    // outline: 0.25rem solid rebeccapurple;
     position: fixed;
     top: 0px;
     left: 0px;
     right: 0px;
     z-index: 2;
-    height: 4rem;
     background-color: #fafafa;
-    color: #292e35;
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    align-items: center;
+    @include elevation4();
     min-width: 800px;
-    @include box-shadow();
-    transition: all 1s;
-    opacity: 1;
 
-    &.hide {
-      opacity: 0;
-      transform: translateY(-100%);
-    }
-    &.none {
-      display: none;
-    }
+    .header {
+      // outline: 0.25rem solid rebeccapurple;
+      height: 4rem;
+      width: 1226px;
+      margin: 0 auto;
+      color: #292e35;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 1s;
+      opacity: 1;
 
-    .logo {
-      height: 40px;
-      width: 40px;
-      margin-left: 1.5rem;
-      background: url("./img/logo.png") center center no-repeat;
-      background-color: $main-theme-color;
-      display: block;
-      font-size: 18px;
-      line-height: 40px;
-    }
+      &.hide {
+        opacity: 0;
+        transform: translateY(-100%);
+      }
+      &.none {
+        display: none;
+      }
 
-    ul.nav {
-      // outline: 0.25rem solid cyan;
-      position: relative;
-      margin-right: 0.6rem;
+      .logo {
+        &::after {
+          content: " ";
+          display: block;
+          position: absolute;
+          top: 0;
+          right: 0;
+          left: 0;
+          bottom: 0;
+          background-color: $main-theme-color;
+          z-index: -1;
+        }
+        position: relative;
+        height: 55px;
+        width: 55px;
+        display: block;
+        font-size: 18px;
 
-      li.item {
-        // outline: 0.25rem solid rebeccapurple;
-        padding: 0 0.75rem;
-        font-size: 14px;
-        display: inline-block;
-        width: 3rem;
-        text-align: center;
-        line-height: 40px;
-        cursor: pointer;
-
+        background: url("https://shonesinglone.leanapp.cn/imgs/mi-logo.png")
+          center no-repeat;
         &:hover {
-          color: $main-theme-color;
-        }
-        &.active a {
-          color: $main-theme-color;
-        }
-      }
-      li.item:hover ~ li.item::before {
-        background-color: red;
-        left: 0;
-      }
-      li.item_custom_button {
-        background: $main-theme-color;
-        width: 4rem;
-        margin: 0 1.5rem;
-        border-radius: 0.25rem;
-        a {
-          color: #fff;
-        }
-        &:hover {
-          background: darken($main-theme-color, 10%);
+          background: url("https://shonesinglone.leanapp.cn/imgs/logo.png")
+            center center no-repeat;
+          color: black;
         }
       }
-    }
-    .active {
-      color: $main-theme-color;
+
+      ul.nav {
+        // outline: 0.1rem solid cyan;
+        position: relative;
+        margin-right: 0.6rem;
+
+        li.item {
+          // outline: 0.2rem solid rebeccapurple;
+          // padding: 0 5px;
+          font-size: 14px;
+          display: inline-block;
+          width: 48px;
+          text-align: center;
+          line-height: 40px;
+          cursor: pointer;
+
+          &:hover {
+            color: $main-theme-color;
+          }
+          &.active a {
+            color: $main-theme-color;
+          }
+        }
+        li.item:hover ~ li.item::before {
+          background-color: red;
+          left: 0;
+        }
+        li.item_custom_button {
+          width: 64px;
+          padding: 5px 0;
+          border-radius: 0.25rem;
+          a {
+            color: #fff;
+          }
+          background: $main-theme-color;
+          &:hover {
+            background: darken($main-theme-color, 10%);
+          }
+        }
+      }
+      .active {
+        color: $main-theme-color;
+      }
     }
   }
   .back {

@@ -1,5 +1,5 @@
 <template>
-  <section class="screen-2">
+  <section class="screen-2" :style="{height:`${height}px`}">
     <div class="heading-wrapper">
       <div :class="['heading',headingDone?'':'init']">精彩，尽在掌握</div>
       <div :class="['subheading',subHeadingDone?'':'init']">
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   name: "section2",
@@ -32,10 +32,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("xxr", ["windowScrollY"])
+    ...mapState("pc.product", ["scrollY"])
   },
   watch: {
-    windowScrollY: function(newV, oldV) {
+    scrollY: function(newV, oldV) {
       console.log(newV, oldV);
 
       if (!this.isAnimateDone && this.inViewport) {
@@ -46,6 +46,7 @@ export default {
   },
   components: {},
   props: {
+    height: { type: Number, default: 800 },
     inViewport: {
       type: Boolean,
       required: true
@@ -122,7 +123,8 @@ export default {
     .phone {
       width: 800px;
       height: 870.25rem;
-      background: url(../img/bg-screen-2.png) no-repeat;
+      background: url(https://shonesinglone.leanapp.cn/imgs/bg-screen-2.png)
+        no-repeat;
       position: absolute;
       left: 50%;
       margin-left: -464px;
@@ -144,7 +146,8 @@ export default {
           top: 9rem;
           left: -120px;
           padding-right: 112px;
-          background: url(../img/icon-point-right.png) no-repeat center right;
+          background: url(https://shonesinglone.leanapp.cn/imgs/icon-point-right.png)
+            no-repeat center right;
 
           transition: all 1.5s ease-in-out 0.5s;
           &.init {
@@ -157,7 +160,8 @@ export default {
           top: 37px;
           left: 584px;
           padding-left: 112px;
-          background: url(../img/icon-point-left.png) no-repeat center left;
+          background: url(https://shonesinglone.leanapp.cn/imgs/icon-point-left.png)
+            no-repeat center left;
 
           transition: all 1.5s ease-in-out 0.6s;
           &.init {
@@ -170,7 +174,8 @@ export default {
           top: 340px;
           left: 42rem;
           padding-left: 112px;
-          background: url(../img/icon-point-left.png) no-repeat center left;
+          background: url(https://shonesinglone.leanapp.cn/imgs/icon-point-left.png)
+            no-repeat center left;
 
           transition: all 1.5s ease-in-out 0.7s;
           &.init {
