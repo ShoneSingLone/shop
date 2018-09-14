@@ -1,5 +1,6 @@
 const state = {
-    scrollY: 0
+    scrollY: 0,
+    directionY: 0
 };
 
 const getters = {
@@ -17,6 +18,9 @@ const actions = {
 const mutations = {
     setScrollY(state, y) {
         state.scrollY = y;
+    },
+    setDirectionY(state, direction) {
+        state.directionY = direction;
     },
 }
 

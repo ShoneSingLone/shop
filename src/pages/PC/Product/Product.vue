@@ -98,10 +98,10 @@ export default {
   },
   computed: {
     ...mapGetters(["appHeight"]),
-    ...mapState("pc.product", ["scrollY"])
+    ...mapState("pc.product", ["scrollY", "directionY"])
   },
   methods: {
-    ...mapMutations("pc.product", ["setScrollY"]),
+    ...mapMutations("pc.product", ["setScrollY", "setDirectionY"]),
     mountedCompletedProgress({ name, el }) {
       let {
         bottom,
@@ -154,6 +154,9 @@ export default {
       });
     },
     show(component) {
+      if (this.headOutlineTimer) {
+        clearTimeout(this.headOutlineTimer);
+      }
       let isHide = "is" + component + "Hide";
       let isNone = "is" + component + "None";
       // header之前为隐藏（true），转为show
@@ -170,13 +173,12 @@ export default {
       // header之前为Show转为渐隐
       this[isHide] = true;
       // hide过程1s，1s之后display为none
-      setTimeout(() => {
+      this.headOutlineTimer = setTimeout(() => {
         this[isNone] = true;
       }, 1000 * 1);
       return this;
     },
-    setCurrentInViewport(newV, oldV) {
-      console.log(newV, oldV);
+    setCurrentInViewport(newV) {
       if (
         newV < this.rect.screen5.bottom &&
         newV >= this.rect.screen5.top - this.rect.header.height - 120
@@ -213,25 +215,34 @@ export default {
       // 当scrollY变化时处理各个状态
       // watch currentInViewport的变化，导航条响应变化
       this.setCurrentInViewport(newV, oldV);
-
-      // nav与outline的显影处理
-      if (this.scrollY <= this.headerHeight) {
-        if (oldV <= this.headerHeight) return false;
+      if (newV - oldV <= 0) {
+        this.setDirectionY(-1);
+      } else {
+        this.setDirectionY(1);
+      }
+      console.log("directionY", this.directionY);
+      // // nav与outline的显影处理
+      // if (this.scrollY <= this.headerHeight) {
+      //   if (oldV <= this.headerHeight) return false;
+      // } else {
+      //   if (oldV > this.headerHeight) return false;
+      // }
+    },
+    directionY(newV) {
+      if (newV === -1) {
         this.show("Header").hide("Outline");
       } else {
-        if (oldV > this.headerHeight) return false;
         this.show("Outline").hide("Header");
       }
     },
-    currentInViewport: function(newV, oldV) {
+    currentInViewport: function(newView, oldView) {
       // screen与导航条的处理
-      console.log(oldV, newV);
-      // let oldIndex = screen[oldV]
-      let newIndex = SCREEN[newV];
+      // let oldIndex = screen[oldView]
+      let newIndex = SCREEN[newView];
       this.currentNavItem = newIndex;
+      this.isInViewport[oldView] = false;
+      this.isInViewport[newView] = true;
       console.log("this.currentNavItem", this.currentNavItem);
-      console.log((this.isInViewport[oldV] = false));
-      console.log((this.isInViewport[newV] = true));
     }
   },
   components: {
@@ -246,6 +257,7 @@ export default {
   },
   data() {
     return {
+      headOutlineTimer: null,
       mountedCompleted: 0,
       isHeaderHide: false,
       isHeaderNone: false,

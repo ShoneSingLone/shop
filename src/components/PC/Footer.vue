@@ -6,6 +6,7 @@
         <span class="text">{{item.text}}</span>
       </a>
     </div>
+
     <div class="link">
       <div class="item" v-for="(item,index) of link" :key="index">
         <span class="title">{{item.title}}</span>
@@ -19,6 +20,7 @@
         <span class="customer">立即开始咨询</span>
       </div>
     </div>
+
     <div class="info">
       <div class="info-container">
         <div class="mi-logo"><img src="https://shonesinglone.leanapp.cn/imgs/logo-footer.png"></div>
@@ -40,7 +42,8 @@
         </div>
       </div>
     </div>
-    <div class="slogan"><img src="https://s01.mifile.cn/i/slogan2016.png"></div>
+
+    <div class="slogan"><img src="https://shonesinglone.leanapp.cn/imgs/slogan2016.png"></div>
   </footer>
 </template>
 
@@ -167,20 +170,20 @@ export default {
         {
           link:
             "https://privacy.truste.com/privacy-seal/validation?rid=4fc28a8c-6822-4980-9c4b-9fdc69b94eb8&lang=zh-cn",
-          imgUrl: "./static/imgs/truste.png"
+          imgUrl: "https://shonesinglone.leanapp.cn/imgs/truste.png"
         },
         {
           link: "https://search.szfw.org/cert/l/CX20120926001783002010",
-          imgUrl: "./static/imgs/cxwz.png"
+          imgUrl: "https://shonesinglone.leanapp.cn/imgs/cxwz.png"
         },
         {
           link:
             "https://ss.knet.cn/verifyseal.dll?sn=e12033011010015771301369&ct=df&pa=461082",
-          imgUrl: "./static/imgs/kxwz.png"
+          imgUrl: "https://shonesinglone.leanapp.cn/imgs/kxwz.png"
         },
         {
           link: "http://www.315online.com.cn/member/315140007.html",
-          imgUrl: "./static/imgs/wsjy.png"
+          imgUrl: "https://shonesinglone.leanapp.cn/imgs/wsjy.png"
         }
       ]
     };
