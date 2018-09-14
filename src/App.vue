@@ -212,6 +212,46 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+/* animate */
+@keyframes rock {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  10% {
+    transform: rotate(3deg);
+  }
+
+  20% {
+    transform: rotate(-3deg);
+  }
+
+  30% {
+    transform: rotate(2deg);
+  }
+
+  40% {
+    transform: rotate(-2deg);
+  }
+
+  50% {
+    transform: rotate(1deg);
+  }
+
+  60% {
+    transform: rotate(-1deg);
+  }
+
+  70% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+/* animate end*/
 /* reset-css end */
 .iconfont {
   font-size: unset;

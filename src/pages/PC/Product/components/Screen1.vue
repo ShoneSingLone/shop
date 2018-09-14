@@ -22,6 +22,7 @@ export default {
   mounted() {
     this.toggleAnimate();
     this.isAnimateDone = true;
+    this.$emit("mounted", { name: "screen1", el: this.$el });
   },
   methods: {
     toggleAnimate() {

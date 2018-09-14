@@ -20,7 +20,9 @@ import { mapState } from "vuex";
 
 export default {
   name: "section2",
-  mounted() {},
+  mounted() {
+    this.$emit("mounted", { name: "screen2", el: this.$el });
+  },
   methods: {
     toggleAnimate() {
       this.headingDone = !this.headingDone;
@@ -35,10 +37,9 @@ export default {
     ...mapState("pc.product", ["scrollY"])
   },
   watch: {
-    scrollY: function(newV, oldV) {
+    inViewport: function(newV, oldV) {
       console.log(newV, oldV);
-
-      if (!this.isAnimateDone && this.inViewport) {
+      if (!this.isAnimateDone && newV) {
         this.toggleAnimate();
         this.isAnimateDone = true;
       }
@@ -123,7 +124,7 @@ export default {
     .phone {
       width: 800px;
       height: 870.25rem;
-      background: url(https://shonesinglone.leanapp.cn/imgs/bg-screen-2.png)
+      background: url("https://shonesinglone.leanapp.cn/imgs/bg-screen-2.png")
         no-repeat;
       position: absolute;
       left: 50%;
@@ -146,7 +147,7 @@ export default {
           top: 9rem;
           left: -120px;
           padding-right: 112px;
-          background: url(https://shonesinglone.leanapp.cn/imgs/icon-point-right.png)
+          background: url("https://shonesinglone.leanapp.cn/imgs/icon-point-right.png")
             no-repeat center right;
 
           transition: all 1.5s ease-in-out 0.5s;
@@ -160,7 +161,7 @@ export default {
           top: 37px;
           left: 584px;
           padding-left: 112px;
-          background: url(https://shonesinglone.leanapp.cn/imgs/icon-point-left.png)
+          background: url("https://shonesinglone.leanapp.cn/imgs/icon-point-left.png")
             no-repeat center left;
 
           transition: all 1.5s ease-in-out 0.6s;
@@ -174,7 +175,7 @@ export default {
           top: 340px;
           left: 42rem;
           padding-left: 112px;
-          background: url(https://shonesinglone.leanapp.cn/imgs/icon-point-left.png)
+          background: url("https://shonesinglone.leanapp.cn/imgs/icon-point-left.png")
             no-repeat center left;
 
           transition: all 1.5s ease-in-out 0.7s;

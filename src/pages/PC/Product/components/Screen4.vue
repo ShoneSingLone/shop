@@ -18,7 +18,9 @@ import { mapState } from "vuex";
 
 export default {
   name: "screen4",
-  mounted() {},
+  mounted() {
+    this.$emit("mounted", { name: "screen4", el: this.$el });
+  },
   methods: {
     toggleAnimate() {
       this.toggleHeading();
@@ -45,10 +47,9 @@ export default {
     ...mapState("pc.product", ["scrollY"])
   },
   watch: {
-    scrollY: function(newV, oldV) {
+    inViewport: function(newV, oldV) {
       console.log(newV, oldV);
-
-      if (!this.isAnimateDone && this.inViewport) {
+      if (!this.isAnimateDone && newV) {
         this.toggleAnimate();
         this.isAnimateDone = true;
       }

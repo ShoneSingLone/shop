@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <div class="header-wrapper">
-      <header id="header" :class="['header',{'hide':isHeaderHide},{'none':isHeaderNone}]">
+    <div :class="['header-wrapper',{'hide':isHeaderHide},{'none':isHeaderNone}]">
+      <header id="header" class="header">
         <a href="javascript:void(0);" class="logo" @click="goHome"></a>
         <nav>
           <ul class="nav">
@@ -16,20 +16,18 @@
       </header>
     </div>
 
-    <screen1 id="screen1" :inViewport="isInViewport.screen1" :height="appHeight" />
-    <screen2 id="screen2" :inViewport="isInViewport.screen2" :height="appHeight" />
-    <screen3 id="screen3" :inViewport="isInViewport.screen3" :height="appHeight" />
-    <screen4 id="screen4" :inViewport="isInViewport.screen4" :height="appHeight" />
-    <screen5 id="screen5" :inViewport="isInViewport.screen5" :height="appHeight" />
+    <screen1 id="screen1" :inViewport="isInViewport.screen1" :height="appHeight" @mounted="mountedCompletedProgress" />
+    <screen2 id="screen2" :inViewport="isInViewport.screen2" :height="appHeight" @mounted="mountedCompletedProgress" />
+    <screen3 id="screen3" :inViewport="isInViewport.screen3" :height="appHeight" @mounted="mountedCompletedProgress" />
+    <screen4 id="screen4" :inViewport="isInViewport.screen4" :height="appHeight" @mounted="mountedCompletedProgress" />
+    <screen5 id="screen5" :inViewport="isInViewport.screen5" :height="appHeight" @mounted="mountedCompletedProgress" />
+
     <!-- <buy/> -->
 
     <div :class="['back',{'hide':isOutlineHide},{'none':isOutlineNone}]">
       <a @click="scrollTo(0)" href="javascript:void(0)" class="glyphicon glyphicon-save"></a>
     </div>
 
-    <footer class=" footer ">
-      © 8102 这不是网站只是些可预览的代码
-    </footer>
     <site-footer></site-footer>
 
     <div :class="['outline',{ 'hide':isOutlineHide},{ 'none':isOutlineNone}] ">
@@ -90,19 +88,45 @@ export default {
           () => {
             this.setScrollY(this.$el.scrollTop);
           },
-          1000 * 0.5,
+          300,
           { trailing: true }
         )
       );
+      this.rect.header = { ...getReac("header") };
     });
     console.log();
   },
   computed: {
     ...mapGetters(["appHeight"]),
-    ...mapState("pc.product", [""])
+    ...mapState("pc.product", ["scrollY"])
   },
   methods: {
     ...mapMutations("pc.product", ["setScrollY"]),
+    mountedCompletedProgress({ name, el }) {
+      let {
+        bottom,
+        height,
+        left,
+        right,
+        top,
+        width,
+        x,
+        y
+      } = el.getBoundingClientRect();
+
+      this.rect[name] = {
+        bottom,
+        height,
+        left,
+        right,
+        top,
+        width,
+        x,
+        y
+      };
+      return this.mountedCompleted++;
+    },
+
     initScreenRect() {
       try {
         this.rect.header = { ...getReac("header") };
@@ -116,7 +140,7 @@ export default {
       }
     },
     scrollTo(top) {
-      window.scrollTo({
+      this.$el.scrollTo({
         top,
         behavior: "smooth"
       });
@@ -153,7 +177,6 @@ export default {
     },
     setCurrentInViewport(newV, oldV) {
       console.log(newV, oldV);
-
       if (
         newV < this.rect.screen5.bottom &&
         newV >= this.rect.screen5.top - this.rect.header.height - 120
@@ -183,11 +206,11 @@ export default {
     }
   },
   watch: {
-    // 当scrollY变化时处理各个状态
+    mountedCompleted(newV) {
+      console.log(newV);
+    },
     scrollY: function(newV, oldV) {
-      if (newV === 0) {
-        this.initScreenRect();
-      }
+      // 当scrollY变化时处理各个状态
       // watch currentInViewport的变化，导航条响应变化
       this.setCurrentInViewport(newV, oldV);
 
@@ -223,7 +246,7 @@ export default {
   },
   data() {
     return {
-      scrollY: 0,
+      mountedCompleted: 0,
       isHeaderHide: false,
       isHeaderNone: false,
       isOutlineHide: true,
@@ -276,6 +299,15 @@ export default {
     background-color: #fafafa;
     @include elevation4();
     min-width: 800px;
+    transition: all 1s;
+
+    &.hide {
+      opacity: 0;
+      transform: translateY(-100%);
+    }
+    &.none {
+      display: none;
+    }
 
     .header {
       // outline: 0.25rem solid rebeccapurple;
@@ -287,16 +319,7 @@ export default {
       flex-flow: row nowrap;
       justify-content: space-between;
       align-items: center;
-      transition: all 1s;
       opacity: 1;
-
-      &.hide {
-        opacity: 0;
-        transform: translateY(-100%);
-      }
-      &.none {
-        display: none;
-      }
 
       .logo {
         &::after {

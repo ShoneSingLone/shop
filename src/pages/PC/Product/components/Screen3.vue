@@ -37,7 +37,9 @@ import { mapState } from "vuex";
 
 export default {
   name: "screen3",
-  mounted() {},
+  mounted() {
+    this.$emit("mounted", { name: "screen3", el: this.$el });
+  },
   methods: {
     toggleAnimate() {
       this.toggleHeading();
@@ -62,10 +64,9 @@ export default {
     ...mapState("pc.product", ["scrollY"])
   },
   watch: {
-    scrollY: function(newV, oldV) {
+    inViewport: function(newV, oldV) {
       console.log(newV, oldV);
-
-      if (!this.isAnimateDone && this.inViewport) {
+      if (!this.isAnimateDone && newV) {
         this.toggleAnimate();
         this.isAnimateDone = true;
       }
@@ -108,7 +109,8 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    background: url(/index_body_1.jpg) 25% 50% no-repeat,
+    background: url("https://shonesinglone.leanapp.cn/imgs/index_body_1.jpg")
+        25% 50% no-repeat,
       linear-gradient(90deg, #d34446 10%, #9e292f 90%);
 
     transition: all 3s;
@@ -186,7 +188,6 @@ export default {
         }
 
         .number {
-          height: 36px;
           font-size: 36px;
           line-height: 36px;
           padding: 32px 0 9px 0;
