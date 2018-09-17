@@ -15,9 +15,12 @@ export default {
   name: "app",
   created() {
     let currentPath = location.hash.split("#");
+    console.log("currentPath", currentPath);
+    console.log("this.$route", this.$route);
     if (currentPath.length > 1 && currentPath[1].length > 1) {
       let flag = currentPath[1].split("/")[1];
       this.setCurrentMode(flag === "pc" ? MODE.pc : MODE.mobile);
+      console.log("in created currentMode", this.currentMode);
       this.setCurrentPath(currentPath[1]);
     }
   },
@@ -37,6 +40,9 @@ export default {
           );
         }, 150)
       );
+      window.addEventListener("storage", function(e) {
+        alert(`from ${e.url},new value is ${e.newValue}`);
+      });
     });
   },
   computed: {
@@ -49,10 +55,17 @@ export default {
   watch: {
     appWidth(newW, oldW) {
       console.log(newW, oldW);
+      console.log("this.currentPath", this.currentPath);
       //Pixel2 411*731
       // 判定是否为PC视图
       let currentMode = newW < 420 ? MODE.mobile : MODE.pc;
       // App是第一个加载也是最后一个销毁
+      console.log(
+        "currentMode",
+        currentMode,
+        "this.currentMode",
+        this.currentMode
+      );
       if (currentMode === this.currentMode) {
         this.$router.push({ path: this.currentPath });
       } else {
@@ -76,7 +89,7 @@ export default {
 };
 </script>
 <style lang="scss">
-// @import "./assets/style/iconfont.scss";
+@import "./assets/style/iconfont.scss";
 /* http://meyerweb.com/eric/tools/css/reset/
    v4.0 | 20180602
    License: none (public domain)

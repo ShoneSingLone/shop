@@ -83,6 +83,7 @@ if (currentMode === this.currentMode) {
 - ![iconfont](./src/assets/doc/iconfont.png)
 
 ```js
+//因为链接不是https，GitHub不会直接加载,所以最后还是打包进入了
 (() => {
   function dynamicLoadingCSS(cssURL) {
     let linkTag = document.createElement("link");

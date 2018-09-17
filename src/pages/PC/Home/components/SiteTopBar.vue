@@ -4,7 +4,7 @@
       <!-- nav -->
       <ul class="topbar-nav">
         <li v-for="(nav, index) in navItems" :key="index">
-          <a rel="nofollow" href="javascript:void(0)" @click="navTo(nav,index)">{{nav.name}}</a>
+          <a rel="nofollow" href="javascript:void(0)" @click="goTo({nav,index})">{{nav.name}}</a>
           <span class="sep">|</span>
           <!-- <span class="sep" v-if="index!==navItems.length-1">|</span> -->
         </li>
@@ -14,7 +14,7 @@
       <ul class="topbar-info">
         <li v-for="(info, index) in infoItems" :key="index">
           <span class="message">
-            <a rel="nofollow" href="javascript:void(0)">{{info.name}}
+            <a rel="nofollow" href="javascript:void(0)" @click="goTo({href:info.url})">{{info.name}}
               <i class=""></i>
             </a>
           </span>
@@ -55,14 +55,20 @@ export default {
         { name: "政企服务", url: "product" },
         { name: "Select Region" }
       ],
-      infoItems: [{ name: "登录" }, { name: "注册" }, { name: "消息通知" }],
+      infoItems: [{ name: "登录", url: "/pc/login" }, { name: "注册" }],
       cartStatus: false
     };
   },
   methods: {
-    navTo(nav, index) {
-      console.log(nav.url, index);
-      this.$router.push({ name: "p.p" });
+    goTo({ nav, index, href }) {
+      console.log(nav, index, href);
+      if (href) {
+        let origin = new URL(location.href);
+        origin.hash = `#${href}`;
+        window.open(origin);
+      } else {
+        this.$router.push({ name: "p.p" });
+      }
     },
     isEnter: function() {
       this.cartStatus = true;

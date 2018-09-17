@@ -46,6 +46,10 @@ export default {
   watch: {
     scrollY: function(newV, oldV) {
       console.log(newV, oldV);
+      console.log(
+        "this.$el.getBoundingClientRect() screen1",
+        this.$el.getBoundingClientRect()
+      );
     }
   },
   components: {},
