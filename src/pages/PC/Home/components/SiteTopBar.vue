@@ -14,7 +14,7 @@
       <ul class="topbar-info">
         <li v-for="(info, index) in infoItems" :key="index">
           <span class="message">
-            <a rel="nofollow" href="javascript:void(0)" @click="goTo({href:info.url})">{{info.name}}
+            <a rel="nofollow" href="javascript:void(0)" @click="goTo({route:info.route})">{{info.name}}
               <i class=""></i>
             </a>
           </span>
@@ -55,19 +55,19 @@ export default {
         { name: "政企服务", url: "product" },
         { name: "Select Region" }
       ],
-      infoItems: [{ name: "登录", url: "/pc/login" }, { name: "注册" }],
+      infoItems: [{ name: "登录", route: { name: "login" } }, { name: "注册" }],
       cartStatus: false
     };
   },
   methods: {
-    goTo({ nav, index, href }) {
-      console.log(nav, index, href);
+    goTo({ nav, route, index, href }) {
+      console.log(nav, route, index, href);
       if (href) {
         let origin = new URL(location.href);
         origin.hash = `#${href}`;
         window.open(origin);
       } else {
-        this.$router.push({ name: "p.p" });
+        this.$router.push(route);
       }
     },
     isEnter: function() {

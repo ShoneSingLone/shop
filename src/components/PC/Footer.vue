@@ -198,6 +198,8 @@ footer {
   flex-direction: column;
   justify-content: space-between;
   align-content: center;
+  background: #fff;
+
   .service {
     width: 1226px;
     padding: 30px 0;

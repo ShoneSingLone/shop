@@ -270,15 +270,14 @@ function clickPrev() {
 - 根据scrollY变动触发动画
 - head 和 outline 的动画用JS想得有点绕，应该有更简单的（主要是动画不一致，且相互之间有先后联系。之前的版本没有加timer 适时取消，还导致了竟态问题，虽然现在解决了，但是很不优雅，有空再来优化...）
 
+---
 
-居中
-定位
-普通的页面：结构 样式 交互
+登录框
 
-~~参考 scrollspy~~
-直接监听scroll，节流处理
-滑动页面，变换heading
+- 利用`background-attachment: fixed`的所谓视觉差,做了一个从设计上毫无美感的背景。
+- ![login](./src/assets/doc/login.gif)
 
+---
 动画的本质是时间片。
 transition有init初始状态和done完成状态两个时间帧。done state跟静态页面的最终效果是一致的。
 

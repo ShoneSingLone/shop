@@ -40,8 +40,12 @@ export default {
           );
         }, 150)
       );
-      window.addEventListener("storage", function(e) {
-        alert(`from ${e.url},new value is ${e.newValue}`);
+      window.addEventListener("storage", event => {
+        let { key, newValue, oldValue, url } = event;
+
+        console.warn(
+          `from ${url},new key is ${key}, newValue is ${newValue}, old value is ${oldValue}`
+        );
       });
     });
   },
@@ -225,6 +229,23 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+/* custom */
+a {
+  text-decoration: none;
+  color: #000;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  // clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* custom */
 /* animate */
 @keyframes rock {
   0% {
