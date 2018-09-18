@@ -2,10 +2,12 @@
 
   <template>
   <div class="login">
-    <header>
-      <a href="javascript:void(0)" class="logo" @click="goTo({route:{name:'p.h'}})"></a>
-      <a href="javascript:void(0)" class="logo-text">Shop</a>
-    </header>
+    <div class="header-wrapper">
+      <header>
+        <a href="javascript:void(0)" class="logo" @click="goTo({route:{name:'p.h'}})"></a>
+        <a href="javascript:void(0)" class="logo-text">Shop</a>
+      </header>
+    </div>
     <main :style="`background: url('https://shonesinglone.leanapp.cn/imgs/login-background.jpg') center /auto ${bgWidth}% no-repeat fixed`">
       <section class="login-section">
         <div class="form-wrapper">
@@ -43,7 +45,7 @@
               <span class="division horizontal"></span>
             </div>
             <div class="third-icon">
-              <a href="javascript:void(0)" class="github"></a>
+              <a href="javascript:void(0)" class="github" @click="loginByGithub"></a>
             </div>
           </div>
 
@@ -55,52 +57,47 @@
 </template>
 
 <script>
-// import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
+import { throttle } from "lodash";
 
 export default {
   name: "login",
   mounted() {
-    console.log("localStorage.clear();");
-    localStorage.setItem("shop.test", Date.now());
-    // window.close();
     //某些需要在mounted之后完成的初始化
-    this.$el.addEventListener("scroll", event => {
-      let { scrollHeight, scrollTop, clientHeight } = event.target;
-      this.bgWidth = Math.ceil(
-        100 * (scrollTop / (scrollHeight - clientHeight + 1) + 0.5)
-      );
-      console.log(this.bgWidth);
-    });
-    this.$emit("mounted", this.$el);
+    this.$el.addEventListener(
+      "scroll",
+      throttle(
+        event => {
+          let { scrollHeight, scrollTop, clientHeight } = event.target;
+          this.bgWidth = Math.ceil(
+            100 * (scrollTop / (scrollHeight - clientHeight + 1) + 0.5)
+          );
+          // console.log(this.bgWidth, this.userInfo);
+        },
+        17,
+        { trailing: true }
+      )
+    );
   },
-  beforeRouteEnter: (to, from, next) => {
-    console.warn("beforeRouteEnter Login");
-    // 在渲染该组件的对应路由被 confirm 前调用
-    // 不！能！获取组件实例 `this`
-    // 因为当守卫执行前，组件实例还没被创建
-    // next(vm => {});
-    next();
-  },
-  beforeRouteUpdate(to, from, next) {
-    console.warn("beforeRouteUpdate Sample");
-    next();
-    // 在当前路由改变，但是该组件被复用时调用
-    // 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，
-    // 由于会渲染同样的 Foo 组件，因此组件实例会被复用。而这个钩子就会在这个情况下被调用。
-    // 可以访问组件实例 `this`
-  },
-  beforeRouteLeave(to, from, next) {
-    console.warn("beforeRouteLeave Sample");
-    next();
-    // 导航离开该组件的对应路由时调用
-    // 可以访问组件实例 `this`
-  },
-  props: {},
   data() {
     return { bgWidth: 50 };
   },
-  computed: {},
+  computed: {
+    ...mapGetters(["githubAuthorizeUrl", "userInfo"])
+  },
+  watch: {
+    userInfo(newInfo) {
+      if (newInfo) {
+        this.$router.push({ name: "p.h" });
+      }
+    }
+  },
   methods: {
+    testuserInfo() {},
+    loginByGithub() {
+      console.log(this.scrollY);
+      window.open(this.githubAuthorizeUrl);
+    },
     goTo({ nav, route, index, href }) {
       console.log(nav, route, index, href);
       if (href) {
@@ -124,24 +121,26 @@ export default {
 .login {
   overflow-y: scroll;
   height: 100%;
-
-  > header {
-    width: 1226px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    > .logo {
-      display: inline-block;
-      width: 55px;
-      height: 55px;
-      background: url("https://shonesinglone.leanapp.cn/imgs/mi-logo.png")
-        center center/55px no-repeat #ff6700;
-      &-text {
-        margin-left: 10px;
-        line-height: 100px;
-        font-size: 30px;
-        vertical-align: middle;
+  > .header-wrapper {
+    @include elevation2();
+    > header {
+      width: 1226px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      > .logo {
+        display: inline-block;
+        width: 55px;
+        height: 55px;
+        background: url("https://shonesinglone.leanapp.cn/imgs/mi-logo.png")
+          center center/55px no-repeat #ff6700;
+        &-text {
+          margin-left: 10px;
+          line-height: 100px;
+          font-size: 30px;
+          vertical-align: middle;
+        }
       }
     }
   }

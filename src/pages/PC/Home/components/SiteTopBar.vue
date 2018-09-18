@@ -10,17 +10,31 @@
         </li>
       </ul>
       <!-- nav end-->
+      <div class="topbar-stamp"></div>
       <!-- info -->
-      <ul class="topbar-info">
-        <li v-for="(info, index) in infoItems" :key="index">
-          <span class="message">
-            <a rel="nofollow" href="javascript:void(0)" @click="goTo({route:info.route})">{{info.name}}
-              <i class=""></i>
+      <div class="topbar-wrapper">
+        <ul class="topbar-info login" v-if="userInfo">
+          <li class="userinfo-wrapper">
+            <span class="avatar" :style="`background:url('${userInfo.avatar}') center center /cover no-repeat;`"></span>
+            <a class="user-name" rel="nofollow" href="javascript:void(0)">{{userInfo.name}}
+              <i class="arrow iconfont icon-right"></i>
             </a>
-          </span>
-          <span class="sep">|</span>
-        </li>
-      </ul>
+          </li>
+          <li class="userinfo-menu">
+            <a href="javascript:void(0)" @click="logout">退出登录</a>
+          </li>
+        </ul>
+        <ul class="topbar-info guest" v-else>
+          <li v-for="(info, index) in infoItems" :key="index">
+            <span class="message">
+              <a rel="nofollow" href="javascript:void(0)" @click="goTo({route:info.route})">{{info.name}}
+                <i class=""></i>
+              </a>
+            </span>
+            <span class="sep">|</span>
+          </li>
+        </ul>
+      </div>
       <!-- info end-->
 
       <!-- car -->
@@ -40,6 +54,8 @@
 </template>
 
 <script type="text/javascript">
+import { mapGetters, mapMutations } from "vuex";
+
 export default {
   name: "topBar",
   data() {
@@ -60,6 +76,7 @@ export default {
     };
   },
   methods: {
+    ...mapMutations(["logout"]),
     goTo({ nav, route, index, href }) {
       console.log(nav, route, index, href);
       if (href) {
@@ -76,11 +93,16 @@ export default {
     isLeave: function() {
       this.cartStatus = false;
     }
+  },
+  computed: {
+    ...mapGetters(["userInfo"])
   }
 };
 </script>
 
 <style lang="scss" scoped>
+@import "../../../../components/style/variables";
+
 .site-topbar {
   width: 100%;
   height: 40px;
@@ -93,11 +115,12 @@ export default {
 
   > .container {
     width: 1226px;
-    line-height: 40px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
-    > ul {
+    align-items: center;
+
+    ul {
       display: flex;
       overflow: hidden;
       li {
@@ -116,13 +139,96 @@ export default {
         }
       }
     }
-    > .topbar-info {
-      margin-left: auto;
+    > .topbar-stamp {
+      margin: 0 auto;
+    }
+    > .topbar-wrapper {
+      position: relative;
+      height: 40px;
+      z-index: 1;
+
+      > .topbar-info {
+        display: flex;
+        &.guest {
+          height: 40px;
+          flex-flow: row nowrap;
+          justify-content: center;
+          align-items: center;
+          margin-right: 10px;
+        }
+
+        &.login {
+          flex-flow: column nowrap;
+          > .userinfo-wrapper {
+            display: flex;
+            align-items: center;
+            height: 40px;
+            line-height: 40px;
+            padding: 0 10px;
+
+            > .avatar {
+              display: inline-block;
+              width: 30px;
+              height: 30px;
+              margin-right: 5px;
+              background-clip: content-box;
+              border-radius: 50%;
+            }
+            > .user-name {
+              > .arrow {
+                display: inline-block;
+                font-size: 16px;
+                font-weight: 900;
+                transition: all 0.5s;
+              }
+            }
+            ~ .userinfo-menu {
+              display: none;
+              text-align: center;
+              > a {
+                line-height: 40px;
+                margin: 0 5px;
+                display: block;
+                // width: 100%;
+                position: relative;
+              }
+            }
+          }
+        }
+      }
+      &:hover {
+        > .topbar-info {
+          &.login {
+            background: #fff;
+            @include elevation2();
+            .userinfo-wrapper {
+              .avatar {
+                @include elevation2();
+              }
+              .user-name {
+                color: #ff6700;
+                .arrow {
+                  transform: rotate(810deg);
+                }
+              }
+              ~ .userinfo-menu {
+                display: block;
+                &:hover {
+                  background-color: #f5f5f5;
+                  > a {
+                    color: #ff6700;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
     > .topbar-cart {
       width: 120px;
       height: 40px;
-      margin-left: 16px;
+      // margin-left: 16px;
       position: relative;
       text-align: center;
       color: #b0b0b0;
@@ -130,8 +236,9 @@ export default {
 
       .cart-mini {
         position: relative;
+        line-height: 40px;
+        vertical-align: middle;
         color: #b0b0b0;
-
         + .cart-menu {
           position: absolute;
           right: 0;

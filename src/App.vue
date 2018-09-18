@@ -14,19 +14,19 @@ let MODE = {
 export default {
   name: "app",
   created() {
+    this.setUserInfo();
     let currentPath = location.hash.split("#");
-    console.log("currentPath", currentPath);
-    console.log("this.$route", this.$route);
     if (currentPath.length > 1 && currentPath[1].length > 1) {
       let flag = currentPath[1].split("/")[1];
       this.setCurrentMode(flag === "pc" ? MODE.pc : MODE.mobile);
-      console.log("in created currentMode", this.currentMode);
       this.setCurrentPath(currentPath[1]);
     }
   },
   mounted() {
     console.log("App mounted");
     this.setAppSize(document.body.getBoundingClientRect());
+    console.log("UserInfo", this.userInfo);
+    // 全应用的监听事件
     this.$nextTick(() => {
       window.addEventListener(
         "resize",
@@ -40,21 +40,45 @@ export default {
           );
         }, 150)
       );
-      window.addEventListener("storage", event => {
-        let { key, newValue, oldValue, url } = event;
 
-        console.warn(
-          `from ${url},new key is ${key}, newValue is ${newValue}, old value is ${oldValue}`
-        );
+      window.addEventListener("storage", event => {
+        try {
+          let { key, newValue, oldValue, url } = event;
+          let vm = this;
+          let strategy = {
+            userInfo: () => {
+              if (newValue && newValue.length > 0) {
+                vm.setUserInfo(JSON.parse(newValue));
+              }
+            }
+          };
+          console.warn(
+            `from ${url},new key is ${key}, newValue is ${newValue}, old value is ${oldValue}`
+          );
+          strategy[key]();
+        } catch (error) {
+          console.log(error);
+        }
       });
     });
   },
   computed: {
-    ...mapGetters(["appWidth", "appHeight", "currentPath", "currentMode"])
+    ...mapGetters([
+      "userInfo",
+      "appWidth",
+      "appHeight",
+      "currentPath",
+      "currentMode"
+    ])
   },
   methods: {
     ...mapActions([]),
-    ...mapMutations(["setAppSize", "setCurrentPath", "setCurrentMode"])
+    ...mapMutations([
+      "setAppSize",
+      "setCurrentPath",
+      "setCurrentMode",
+      "setUserInfo"
+    ])
   },
   watch: {
     appWidth(newW, oldW) {
@@ -70,9 +94,7 @@ export default {
         "this.currentMode",
         this.currentMode
       );
-      if (currentMode === this.currentMode) {
-        this.$router.push({ path: this.currentPath });
-      } else {
+      if (currentMode !== this.currentMode) {
         this.setCurrentMode(currentMode);
         this.$router.push({
           name: (() => {
@@ -83,6 +105,8 @@ export default {
             return switchPathName[currentMode];
           })()
         });
+
+        // this.$router.push({ path: this.currentPath });
       }
     },
     $route(newPath, oldPath) {

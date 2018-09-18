@@ -274,7 +274,16 @@ function clickPrev() {
 
 登录框
 
-- 利用`background-attachment: fixed`的所谓视觉差,做了一个从设计上毫无美感的背景。
+- 利用`background-attachment: fixed`所谓的视觉差,做了一个从设计上毫无美感的背景。
+- ![login](./src/assets/doc/login.gif)
+
+---
+GitHub 第三方登录
+
+- 官方文档都很详实，没有什么难点
+- 主要是回调的处理，可能有双工通信这样的方式，但是我这里采用的是监听localstorage变动的方式。授权页面完成数据的客户端存储之后就`window.close()`，深藏功与名。
+- 因为回调页面是`https://shonesinglone.github.io/oauth/`，所以只能登GitHub.io的页面才能用第三方登录。嗯，就是这样。
+
 - ![login](./src/assets/doc/login.gif)
 
 ---
@@ -295,7 +304,7 @@ vue lazy load
 1. 再写初识状态，
 1. 添加再改写成动画。
 
-初始init状态
-滑动到相应的screen，动画才开始（去掉init class）
+初始init状
+态滑动到相应的screen，动画才开始（去掉init class）
 导航 大纲 双向定位
 导航滑动条
