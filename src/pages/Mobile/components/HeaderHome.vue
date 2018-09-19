@@ -1,15 +1,15 @@
 <template>
-    <transition :name="transitionName">
-        <div class="home">
-            <div class="logo">
-            </div>
-            <div class="search-box">
-                <i class="iconfont icon-search"></i>搜索商品名称
-            </div>
-            <a class="user iconfont icon-me">
-            </a>
-        </div>
-    </transition>
+  <transition :name="transitionName">
+    <div class="home">
+      <div class="logo">
+      </div>
+      <div class="search-box">
+        <i class="iconfont icon-search"></i>搜索商品名称
+      </div>
+      <a class="user iconfont icon-me">
+      </a>
+    </div>
+  </transition>
 </template>
 
 <script>
