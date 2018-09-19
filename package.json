@@ -10,6 +10,7 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "better-scroll": "^1.12.6",
     "lodash": "^4.17.11",
     "register-service-worker": "^1.0.0",
     "vue": "^2.5.17",

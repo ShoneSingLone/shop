@@ -4,7 +4,7 @@
       <i :class="icon"></i>
     </slot>
     <slot>
-      <div v-html="label"></div>
+      <div class="label">{{label}}</div>
     </slot>
   </div>
 </template>

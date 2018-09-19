@@ -13,6 +13,19 @@ $main-theme-color: #ff6700;
     text-shadow: 5px 5px 5px rgba(53, 24, 24, 0.5);
 }
 
+@mixin scroll-horizontal {
+    .cube-scroll-content {
+        display: inline-block;
+        .list-wrapper {
+            padding: 0 10px;
+            white-space: nowrap;
+            .list-item {
+                display: inline-block;
+            }
+        }
+    }
+}
+
 /*!
  Material Components for the Web
  Copyright (c) 2018 Google Inc.

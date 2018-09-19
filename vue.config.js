@@ -34,7 +34,7 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   devServer: {
-    hot: true
+    hot: true,
   },
   baseUrl,
   lintOnSave: false,

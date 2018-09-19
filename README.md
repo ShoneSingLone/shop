@@ -10,7 +10,11 @@
 - 一个仿[小米商城](https://www.mi.com/)项目，基于Vue技术栈。
 - [leanCloud 访问Shop地址](https://shonesinglone.leanapp.cn/shop/)![leancloud_addr](./src/assets/doc/leancloud_addr.png)对比[Github.io 访问Shop地址](https://shonesinglone.github.io/shop/#/)，cleanCloud访问速度是肉眼可见的快得多，特别商品详情页几张大图，感觉就像CDN。
 
-产品概览页的nav与outline有竟态问题待解决（挖坑）
+---
+挖坑，未填
+
+- [x] ~~产品概览页的nav与outline有竟态问题待解决（用timer解决了）~~
+- [ ] `vue/no-reserved-keys`cube-UI ESLint没通过，醉了...
 
 ## 任务清单
 
@@ -42,6 +46,8 @@ body,
   overflow: hidden;
 }
 ```
+
+### PC
 
 ---
  在App.vue中
@@ -287,6 +293,14 @@ GitHub 第三方登录
 - ![login](./src/assets/doc/login.gif)
 
 ---
+
+### Mobile
+
+- [Cube-UI](https://didi.github.io/cube-ui/#/zh-CN)
+
+- 通常情况，根据NavBar分页面，自顶向下逐个分解，利用Cube-UI的组件。
+
+
 动画的本质是时间片。
 transition有init初始状态和done完成状态两个时间帧。done state跟静态页面的最终效果是一致的。
 
