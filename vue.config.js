@@ -9,6 +9,16 @@ function resolve(dir) {
 let plugins = [],
   baseUrl = '/';
 
+function addStyleResource(rule) {
+  rule.use('style-resource')
+    .loader('style-resources-loader')
+    .options({
+      patterns: [
+        path.resolve(__dirname, './src/components/style/variables.scss'),
+      ],
+    })
+}
+
 console.log('process.env.NODE_ENV:\n', process.env.NODE_ENV);
 
 if (process.env.NODE_ENV === 'production') {
@@ -34,8 +44,13 @@ module.exports = {
       extensions: ['.js', '.vue', '.json'],
       alias: {
         '@c': resolve('./src/components'),
+        '@cube': resolve('./src/components/cube-ui/components'),
         '@m': resolve('./modules')
       }
     },
+  },
+  chainWebpack: config => {
+    const types = ['vue-modules', 'vue', 'normal-modules', 'normal']
+    types.forEach(type => addStyleResource(config.module.rule('scss').oneOf(type)))
   },
 }

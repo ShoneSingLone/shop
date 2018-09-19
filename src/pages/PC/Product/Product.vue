@@ -288,7 +288,6 @@ export default {
 
 
 <style lang='scss' scoped>
-@import "../../../components/style/variables";
 @import "./base";
 
 .container {

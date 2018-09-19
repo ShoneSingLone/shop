@@ -83,7 +83,7 @@ export default {
     return { bgWidth: 50 };
   },
   computed: {
-    ...mapGetters(["githubAuthorizeUrl", "userInfo"])
+    ...mapGetters(["githubAuthorizeUrl", "userInfo", "currentMode"])
   },
   watch: {
     userInfo(newInfo) {
@@ -116,7 +116,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../components/style/variables";
 
 .login {
   overflow-y: scroll;

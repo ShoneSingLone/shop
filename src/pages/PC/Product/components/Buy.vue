@@ -17,7 +17,6 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-@import "../../../../components/style/variables";
 
 .buy {
   position: relative;

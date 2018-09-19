@@ -94,7 +94,6 @@ export default {
 </script>
 
 <style lang='scss' scoped >
-@import "../../../../components/style/variables";
 
 .screen-3 {
   position: relative;

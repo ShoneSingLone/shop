@@ -103,7 +103,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss' scoped>
-@import "../../../../components/style/variables";
 
 ul.flashPurchase-countdown {
   // outline: 16px solid rebeccapurple;

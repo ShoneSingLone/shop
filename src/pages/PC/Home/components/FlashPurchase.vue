@@ -54,7 +54,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss' scoped>
 @import "../base";
-@import "../../../../components/style/variables";
 
 $width: 1226px;
 $height: 340px;

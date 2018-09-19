@@ -553,7 +553,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../../../components/style/variables";
 
 $width: 240px;
 $height: 460px;

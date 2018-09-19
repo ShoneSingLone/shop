@@ -160,7 +160,6 @@ export default {
 };
 </script>
 <style lang='scss' scoped>
-@import "../../../../components/style/variables";
 
 .flashPurchase-carousel-wrapper {
   // outline: 16px solid red;

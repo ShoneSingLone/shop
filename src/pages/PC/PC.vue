@@ -1,10 +1,10 @@
 <template>
-    <div id="pc">
+    <div id="root-pc">
         <router-view/>
     </div>
 </template>
 <style lang="scss" scoped>
-#pc {
+#root-pc {
   height: 100%;
   font-size: 16px;
   overflow: hidden;

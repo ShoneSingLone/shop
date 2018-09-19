@@ -101,7 +101,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../../../components/style/variables";
 
 .site-topbar {
   width: 100%;
