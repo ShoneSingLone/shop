@@ -300,25 +300,21 @@ GitHub 第三方登录
 
 - 通常情况，根据NavBar分页面，自顶向下逐个分解，利用Cube-UI的组件。
 
+```bash
+├─Home
+├─Category
+├─Trolley
+└─User
+```
+
+
+---
+
+### 
 
 动画的本质是时间片。
 transition有init初始状态和done完成状态两个时间帧。done state跟静态页面的最终效果是一致的。
 
 - 复用
 
-头部
-导航
-面包屑
-
-vue lazy load
-
-开发流程
-
-1. 首先完成静态页面的效果，
-1. 再写初识状态，
-1. 添加再改写成动画。
-
-初始init状
-态滑动到相应的screen，动画才开始（去掉init class）
-导航 大纲 双向定位
-导航滑动条
+(挖坑)vue lazy load

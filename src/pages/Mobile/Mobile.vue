@@ -1,28 +1,24 @@
 <template>
-    <div id="root-mobile">
-        <header ref="header">
-            <header-home v-show="isShowHomeHeader"></header-home>
-        </header>
+  <div id="root-mobile">
+    <main ref="main">
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
+    </main>
 
-        <main>
-            <keep-alive>
-                <router-view></router-view>
-            </keep-alive>
-        </main>
+    <footer ref="footer">
+      <nav class="nav-bar" v-show="isShowNavBar">
+        <c-tab-bar v-model="currentView" @click="clickHandler" @change="changeHandler">
+          <c-tab class="nav-item" v-for="(item) in tabs" :icon="item.icon" :label="item.label" :key="item.label">
+            <!-- name为icon的插槽 -->
+            <i slot="icon" :class="['iconfont',`icon-${item.icon}`]">
+            </i>
+          </c-tab>
+        </c-tab-bar>
+      </nav>
+    </footer>
 
-        <footer ref="footer">
-            <nav class="nav-bar" v-show="isShowNavBar">
-                <c-tab-bar v-model="currentView" :showSlider="true" @click="clickHandler" @change="changeHandler">
-                    <c-tab class="nav-item" v-for="(item) in tabs" :icon="item.icon" :label="item.label" :key="item.label">
-                        <!-- name为icon的插槽 -->
-                        <i slot="icon" :class="['iconfont',`icon-${item.icon}`]">
-                        </i>
-                    </c-tab>
-                </c-tab-bar>
-            </nav>
-        </footer>
-
-    </div>
+  </div>
 </template>
 <script>
 // import { mapGetters, mapActions } from "vuex";
@@ -72,15 +68,14 @@ export default {
   methods: {
     clickHandler(label) {
       // if you clicked home tab, then print 'Home'
-      console.log(label);
+      console.log("clickHandler", label);
+      console.log("main Rect", this.$refs.main.getBoundingClientRect());
     },
     changeHandler(label) {
       console.log("value has changed, now is", label);
     }
   },
   components: {
-    "header-home": () =>
-      import(/* webpackChunkName: "c-container" */ "./components/HeaderHome"),
     "c-button": () =>
       import(/* webpackChunkName: "c-container" */ "@cube/button/button"),
     "c-tab": () =>

@@ -16,9 +16,11 @@ $main-theme-color: #ff6700;
 @mixin scroll-horizontal {
     .cube-scroll-content {
         display: inline-block;
+
         .list-wrapper {
             padding: 0 10px;
             white-space: nowrap;
+
             .list-item {
                 display: inline-block;
             }

@@ -101,7 +101,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .site-topbar {
   width: 100%;
   height: 40px;
@@ -110,7 +109,7 @@ export default {
   font-size: 12px;
   color: #5c3a3a;
   background: #333;
-  z-index: 1;
+  z-index: 2;
 
   > .container {
     width: 1226px;
@@ -118,6 +117,8 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
+    z-index: 1;
 
     ul {
       display: flex;
@@ -238,6 +239,7 @@ export default {
         line-height: 40px;
         vertical-align: middle;
         color: #b0b0b0;
+        // outline: 1px solid rebeccapurple;
         + .cart-menu {
           position: absolute;
           right: 0;

@@ -10,8 +10,13 @@ githubAuthorizeUrl.searchParams.append("client_id", clientId);
 githubAuthorizeUrl.searchParams.append("redirect_uri", redirectUri);
 githubAuthorizeUrl.searchParams.append("scope", "user");
 
+let themeColorDOM = null;
+
 
 const state = {
+    meta: {
+        themeColor: '#337ab7',
+    },
     appSize: {
         height: 0,
         width: 0
@@ -51,6 +56,9 @@ const actions = {
     },
 }
 const mutations = {
+    setCurrentPath(state, path) {
+        state.currentPath = path;
+    },
     setAppSize(state, {
         height,
         width,
@@ -58,8 +66,23 @@ const mutations = {
         state.appSize.height = Math.ceil(height);
         state.appSize.width = Math.ceil(width);
     },
-    setCurrentPath(state, path) {
-        state.currentPath = path;
+    setThemeColor(state, color) {
+        // LAZY SINGLE
+        try {
+            themeColorDOM = themeColorDOM ? themeColorDOM : ((() => {
+                let metaList = document.getElementsByName("theme-color");
+                return themeColorDOM = (metaList && metaList.length) > 0 ? metaList[0] : false;
+            })() ? themeColorDOM : (() => {
+                themeColorDOM = document.createElement("meta");
+                themeColorDOM.setAttribute('name', "theme-color");
+                document.head.appendChild(themeColorDOM);
+                return themeColorDOM;
+            })());
+            themeColorDOM.setAttribute('content', color)
+        } catch (error) {
+            // TODO:append a meta name=theme-color content=color
+        }
+        state.meta.themeColor = color
     },
     setCurrentMode(state, mode) {
         state.currentMode = mode;
