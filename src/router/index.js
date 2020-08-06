@@ -1,14 +1,27 @@
 import Vue from 'vue'
-import Router from 'vue-router'
-// 小写开始为Router
-import login from './login'
-import pc from './PC/pc'
-import mobile from './Mobile/mobile'
+import VueRouter from 'vue-router'
+import Home from '../views/Home.vue'
 
-Vue.use(Router)
-export default new Router({
-  routes: [{
-    path: '*',
-    redirect: '/pc/h'
-  }, mobile, pc, login]
+Vue.use(VueRouter)
+
+  const routes = [
+  {
+    path: '/',
+    name: 'Home',
+    component: Home
+  },
+  {
+    path: '/about',
+    name: 'About',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+  }
+]
+
+const router = new VueRouter({
+  routes
 })
+
+export default router
